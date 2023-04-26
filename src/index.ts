@@ -1,10 +1,19 @@
 import express from "express"; //Importing the express
 import http from "http";
-// import { Server } from "socket.io";
+import cors from "cors";
+import swaggerUi from "swagger-ui-express";
+require("dotenv").config(); //The dotenv for env usage
+// comp
 import connectDb from "./db/Dbconnect";
 import routes from "./routes";
-import cors from "cors";
-require("dotenv").config(); //The dotenv for env usage
+import { swaggerSpec } from "./swagger";
+declare global {
+  namespace Express {
+    export interface Request {
+      user?: any;
+    }
+  }
+}
 
 /**
  * The app instance
@@ -17,27 +26,13 @@ app.use(express.json());
 //Disabling cors
 app.use(cors());
 
-//User
-declare global {
-  namespace Express {
-    export interface Request {
-      user?: any;
-    }
-  }
-}
-
 /**
  * Creating an http server
  */
 let server = http.createServer(app);
 
-//Implemented the server in the socket
-// const io = new Server(server, {
-//   transports: ["polling"],
-//   cors: {
-//     origin: "*",
-//   },
-// });
+// connecting to swagger
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 /**
  * Making port for the app
