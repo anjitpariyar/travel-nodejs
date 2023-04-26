@@ -4,12 +4,18 @@
   "description": "A pet social site and also an ecommerce for cuties.",
   "main": "src/index.js",
   "scripts": {
-    "start": "node dist",
+    "start": "nodemon src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon src/index.ts",
-    "build": "rimraf dist && tsc --project ./",
-    "build:render": "yarn; rimraf dist && tsc --project ./"
+    "build": "rimraf dist && tsc",
+    "add-build": "git add dist",
+    "ts.check": "tsc --project tsconfig.json"
   },
+  "pre-commit": [
+    "ts.check",
+    "build",
+    "add-build"
+  ],
   "keywords": [
     "travel"
   ],
@@ -40,7 +46,8 @@
     "@types/nodemailer": "^6.4.4",
     "concurrently": "^7.0.0",
     "nodemon": "^2.0.15",
-    "rimraf": "^3.0.2",
+    "pre-commit": "^1.2.2",
+    "rimraf": "^5.0.0",
     "ts-node": "^10.4.0",
     "typescript": "^4.5.5"
   }
