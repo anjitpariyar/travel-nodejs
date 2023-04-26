@@ -15,11 +15,6 @@
     }
   ],
   "build": {
-    "env": {
-      "NODE_ENV": "production"
-    },
-    "scripts": {
-      "build": "rimraf dist && tsc"
-    }
+    "command": "npm run build"
   }
 }
