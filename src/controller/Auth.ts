@@ -127,12 +127,15 @@ export const LoginTask = async (req: Request, res: Response) => {
       { expiresIn: 3600000 }
     );
 
+    console.log("access token: ", access_token);
     //Object for sending data to response
     let userData = {
       _id: findUser._id,
       email: findUser.email,
       role: findUser.role,
+      avatarUrl: findUser.avatarUrl,
     };
+    console.log("userData", userData);
     let resData = {
       access_token: access_token,
       user: userData,
@@ -140,6 +143,7 @@ export const LoginTask = async (req: Request, res: Response) => {
     let respObject = new ResponseObj(200, resData, {}, "Login Successfull");
     return res.status(200).send(respObject);
   } catch (error) {
+    console.log("error", error);
     let errorObject: object = {};
     if (error instanceof Error) errorObject = error;
     let responseObj = new ResponseObj(500, errorObject, {}, "Server Error");
