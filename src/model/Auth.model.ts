@@ -8,6 +8,7 @@ export interface IAuth extends mongoose.Document {
   password: string;
   role: string;
   username?: string;
+  avatarUrl?: string;
 }
 const AuthSchema = new mongoose.Schema(
   {
@@ -20,8 +21,14 @@ const AuthSchema = new mongoose.Schema(
       required: true,
     },
     role: {
-      type: String,
+      type: Number,
+      required: true,
       default: 1, // 0 = admin (Default), 1 = nirmal user, 2 = hotel vendor
+    },
+    avatarUrl: {
+      type: String,
+      default:
+        "https://res.cloudinary.com/dem2xvk2e/image/upload/v1682476653/chat/qfemlneebclcpd2pwi2h.png",
     },
   },
   { timestamps: true }

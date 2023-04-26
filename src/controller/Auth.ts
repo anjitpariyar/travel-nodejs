@@ -5,7 +5,14 @@ import jwt from "jsonwebtoken";
 import { validationResult } from "express-validator";
 import { Request, Response } from "express";
 import dotenv from "dotenv";
+import avatarMe from "avatar-me";
 dotenv.config();
+
+avatarMe.configure({
+  defaultAvatar: "qfemlneebclcpd2pwi2h.png",
+  defaultAvatarPath:
+    "https://res.cloudinary.com/dem2xvk2e/image/upload/v1682476653/chat/",
+});
 
 /**
  * This task is for registering a new user
@@ -37,6 +44,7 @@ export const RegisterTask = async (req: Request, res: Response) => {
    */
   let newUser = new Auth();
   newUser.email = email;
+  // newUser.role = role;
 
   /**
    * Generating salt
@@ -44,11 +52,13 @@ export const RegisterTask = async (req: Request, res: Response) => {
   let salt = await bcrypt.genSalt(10);
   //Hashing the password
   newUser.password = await bcrypt.hash(password, salt);
-  /**
-   * Generating token for the activation link
-   */
-  let token = jwt.sign({ expiresIn: 360000 }, process.env.mySecret!);
-
+  newUser.avatarUrl = avatarMe.fetchAvatar(
+    "jorge@ferreiro.me",
+    "jorge",
+    (err, avatar) => {
+      console.log(err);
+    }
+  );
   /**
    * Saving to database
    */
@@ -58,7 +68,7 @@ export const RegisterTask = async (req: Request, res: Response) => {
       200,
       newUser,
       {},
-      "Confirm link is sent to mail"
+      "account created successfully"
     );
     //SendActivationMail(newUser._id, token, newUser.email);
     return res.send(resData);
@@ -66,7 +76,6 @@ export const RegisterTask = async (req: Request, res: Response) => {
     let errorObject: object = {};
     if (error instanceof Error) errorObject = error;
     let resData = new ResponseObj(400, errorObject, {}, "User save failed");
-
     return res.send(resData);
   }
 };

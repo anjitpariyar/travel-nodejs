@@ -11,10 +11,10 @@ router.post(
   "/",
   [
     check("email", "This must be a valid email address.").isEmail(),
-    check("username", "Please enter the username").notEmpty(),
     check("password", "Password must be more than 6 character").isLength({
       min: 6,
     }),
+    check("role", "Role cannt be empty").notEmpty(),
   ],
   RegisterTask
 );
@@ -25,7 +25,10 @@ router.post(
 router.post(
   "/login",
   [
-    check("email", "This cannot be empty").notEmpty(),
+    check("email", "Email cannot be empty")
+      .notEmpty()
+      .isEmail()
+      .withMessage("Please Enter valid email address."),
     check("password", "This cannot be empty").notEmpty(),
   ],
   LoginTask
