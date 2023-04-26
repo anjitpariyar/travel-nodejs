@@ -60,10 +60,7 @@ export const RegisterTask = async (req: Request, res: Response) => {
    */
 
   try {
-    // await newUser.save();
-    let delNewUser = { ...newUser };
-    delete delNewUser.password;
-    console.log("newUser111", delNewUser);
+    await newUser.save();
     let resData = new ResponseObj(
       200,
       newUser,
