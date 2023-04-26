@@ -13,5 +13,13 @@
       "src": "/(.*)",
       "dest": "dist/index.js"
     }
-  ]
+  ],
+  "build": {
+    "env": {
+      "NODE_ENV": "production"
+    },
+    "scripts": {
+      "build": "rimraf dist && tsc"
+    }
+  }
 }
