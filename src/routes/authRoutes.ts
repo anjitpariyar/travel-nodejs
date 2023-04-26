@@ -9,12 +9,12 @@ const router = Router();
  */
 /**
  * @swagger
- * /example:
+ * /auth:
  *      post:
- *          summary: Send the text to the server
+ *          summary: for registration
  *          tags:
- *              - ExampleEndpoints
- *          description: Send a message to the server and get a response added to the original text.
+ *              - Authorization
+ *          description: this api is used to register
  *          requestBody:
  *              required: true
  *              content:
@@ -22,20 +22,32 @@ const router = Router();
  *                      schema:
  *                          type: object
  *                          properties:
- *                              responseText:
+ *                              email:
+ *                                  type: email
+ *                                  example: anjitpariyar@gmail.com
+ *                              password:
  *                                  type: string
- *                                  example: This is some example string! This is an endpoint
+ *                                  example: string
+ *                              role:
+ *                                  type: number
+ *                                  example: 1
  *          responses:
  *              201:
  *                  description: Success
  *                  content:
  *                      application/json:
- *                          schema:
- *                              type: object
- *                              properties:
- *                                  text:
- *                                      type: string
- *                                      example: This is some example string!
+ *                              schema:
+ *                                  type: object
+ *                                  properties:
+ *                                      email:
+ *                                          type: email
+ *                                          example: anjitpariyar@gmail.com
+ *                                      avatarUrl:
+ *                                          type: string
+ *                                          example: https://res.cloudinary.com/dem2xvk2e/image/upload/v1682476653/chat/qfemlneebclcpd2pwi2h.png
+ *                                      role:
+ *                                          type: number
+ *                                          example: 1
  *              404:
  *                  description: Not found
  *              500:

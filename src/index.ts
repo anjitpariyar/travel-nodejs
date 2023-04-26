@@ -33,7 +33,6 @@ let server = http.createServer(app);
 
 // connecting to swagger
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-
 /**
  * Making port for the app
  */

@@ -61,9 +61,14 @@ export const RegisterTask = async (req: Request, res: Response) => {
 
   try {
     await newUser.save();
+    let resObj = {
+      email: newUser.email,
+      role: newUser.role,
+      avatarUrl: newUser.avatarUrl,
+    };
     let resData = new ResponseObj(
       200,
-      newUser,
+      resObj,
       {},
       "account created successfully"
     );
