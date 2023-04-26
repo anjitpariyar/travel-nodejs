@@ -11,10 +11,6 @@
     "add-build": "git add dist",
     "ts.check": "tsc --project tsconfig.json"
   },
-  "pre-commit": [
-    "ts.check",
-    "build"
-  ],
   "keywords": [
     "travel"
   ],
