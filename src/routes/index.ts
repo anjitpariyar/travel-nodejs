@@ -7,9 +7,9 @@ import commentRoutes from "./commentRoutes";
 
 const router = Router();
 // testing
-// router.use("/", (req, res) => {
-//   res.send("working..");
-// });
+router.use("/test", (req, res) => {
+  res.send("working..");
+});
 /**
  * Authentication routes
  */
