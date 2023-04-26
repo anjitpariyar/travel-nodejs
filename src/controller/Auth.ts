@@ -1,25 +1,22 @@
-import Auth from "../model/Auth.model";
-import ResponseObj from "./Response";
+// lib
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { validationResult } from "express-validator";
 import { Request, Response } from "express";
 import dotenv from "dotenv";
-import avatarMe from "avatar-me";
-dotenv.config();
+import gravatar from "gravatar";
+// comp
+import Auth from "../model/Auth.model";
+import ResponseObj from "./Response";
 
-avatarMe.configure({
-  defaultAvatar: "qfemlneebclcpd2pwi2h.png",
-  defaultAvatarPath:
-    "https://res.cloudinary.com/dem2xvk2e/image/upload/v1682476653/chat/",
-});
+dotenv.config();
 
 /**
  * This task is for registering a new user
  * @returns
  */
 export const RegisterTask = async (req: Request, res: Response) => {
-  let { email, password } = req.body;
+  let { email, password, role } = req.body;
   //Checking validations
   let errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -44,7 +41,12 @@ export const RegisterTask = async (req: Request, res: Response) => {
    */
   let newUser = new Auth();
   newUser.email = email;
-  // newUser.role = role;
+  newUser.role = role;
+  newUser.avatarUrl = gravatar.url(email, {
+    s: "56",
+    r: "pg",
+    d: "https://res.cloudinary.com/dem2xvk2e/image/upload/v1682476653/chat/qfemlneebclcpd2pwi2h.png",
+  });
 
   /**
    * Generating salt
@@ -52,18 +54,16 @@ export const RegisterTask = async (req: Request, res: Response) => {
   let salt = await bcrypt.genSalt(10);
   //Hashing the password
   newUser.password = await bcrypt.hash(password, salt);
-  newUser.avatarUrl = avatarMe.fetchAvatar(
-    "jorge@ferreiro.me",
-    "jorge",
-    (err, avatar) => {
-      console.log(err);
-    }
-  );
+
   /**
    * Saving to database
    */
+
   try {
-    await newUser.save();
+    // await newUser.save();
+    let delNewUser = { ...newUser };
+    delete delNewUser.password;
+    console.log("newUser111", delNewUser);
     let resData = new ResponseObj(
       200,
       newUser,
@@ -134,7 +134,6 @@ export const LoginTask = async (req: Request, res: Response) => {
     let userData = {
       _id: findUser._id,
       email: findUser.email,
-      username: findUser.username,
       role: findUser.role,
     };
     let resData = {
