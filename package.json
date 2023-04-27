@@ -1,13 +1,13 @@
 {
   "name": "petme",
   "version": "1.0.0",
-  "description": "A pet social site and also an ecommerce for cuties.",
+  "description": "travel project for learning nodejs",
   "main": "src/index.js",
   "scripts": {
-    "start": "nodemon src/index.ts",
+    "start": "node dist",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon src/index.ts",
-    "build": "rimraf dist && tsc",
+    "build": "rimraf dist && tsc ",
     "check": "tsc --project tsconfig.json"
   },
   "keywords": [

@@ -10,28 +10,7 @@ const options = {
     schemes: ["http", "https"],
     servers: [{ url: process.env.API }],
   },
-  apis: [path.join(__dirname, "../routes/authRoutes.ts")],
-  components: {
-    schemas: {
-      loginResp: {
-        type: "object",
-        properties: {
-          status: {
-            type: "integer",
-          },
-          data: {
-            type: "object",
-          },
-          meta: {
-            type: "object",
-          },
-          msg: {
-            type: "string",
-          },
-        },
-      },
-    },
-  },
+  apis: ["src/routes/authRoutes.ts"],
 };
 
 export const swaggerSpec = swaggerJSDoc(options);
