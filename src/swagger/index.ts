@@ -20,5 +20,4 @@ const options = {
     ),
   ],
 };
-// console.log("__dirname", __dirname);
 export const swaggerSpec = swaggerJSDoc(options);
