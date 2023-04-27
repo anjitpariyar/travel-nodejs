@@ -72,7 +72,6 @@ export const RegisterTask = async (req: Request, res: Response) => {
       {},
       "account created successfully"
     );
-    //SendActivationMail(newUser._id, token, newUser.email);
     return res.send(resData);
   } catch (error) {
     let errorObject: object = {};
@@ -132,7 +131,7 @@ export const LoginTask = async (req: Request, res: Response) => {
       { expiresIn: 3600000 }
     );
 
-    console.log("access token: ", access_token);
+    // console.log("access token: ", access_token);
     //Object for sending data to response
     let userData = {
       _id: findUser._id,
@@ -140,7 +139,7 @@ export const LoginTask = async (req: Request, res: Response) => {
       role: findUser.role,
       avatarUrl: findUser.avatarUrl,
     };
-    console.log("userData", userData);
+    // console.log("userData", userData);
     let resData = {
       access_token: access_token,
       user: userData,

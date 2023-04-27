@@ -5,16 +5,23 @@ import { check } from "express-validator";
 const router = Router();
 
 /**
- * Register route
+ * @swagger
+ * tags:
+ *   name: Auth
+ *   description: Authentication endpoints
+ *
+ *
+ *
  */
+
 /**
  * @swagger
  * /auth:
  *      post:
  *          summary: for registration
- *          tags:
- *              - Authorization
- *          description: this api is used to register
+ *          tags: [Auth]
+ *          produces:
+ *            - application/json
  *          requestBody:
  *              required: true
  *              content:
@@ -53,6 +60,61 @@ const router = Router();
  *              500:
  *                  description: Internal server error
  */
+
+/**
+ * @swagger
+ * /auth/login:
+ *      post:
+ *          summary: for login
+ *          tags: [Auth]
+ *          produces:
+ *            - application/json
+ *          requestBody:
+ *              required: true
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              email:
+ *                                  type: email
+ *                                  example: anjitpariyar@gmail.com
+ *                              password:
+ *                                  type: string
+ *                                  example: string
+ *          responses:
+ *              201:
+ *                  description: Success
+ *                  content:
+ *                      application/json:
+ *                              schema:
+ *                                  type: object
+ *                                  properties:
+ *                                      data:
+ *                                         type: object
+ *                                         properties:
+ *                                           access_token:
+ *                                             type: string
+ *                                           user:
+ *                                             type: object
+ *                                             properties:
+ *                                               _id:
+ *                                                 type: string
+ *                                               email:
+ *                                                 type: string
+ *                                               role:
+ *                                                 type: integer
+ *                                               avatarUrl:
+ *                                                 type: string
+ *              404:
+ *                  description: Not found
+ *              500:
+ *                  description: Internal server error
+ */
+
+/**
+ * Register route
+ */
 router.post(
   "/",
   [
@@ -60,7 +122,10 @@ router.post(
     check("password", "Password must be more than 6 character").isLength({
       min: 6,
     }),
-    check("role", "Role cannt be empty").notEmpty(),
+    check("role", "Role cannt be empty")
+      .notEmpty()
+      .isIn([0, 1, 2])
+      .withMessage("Role must be 0,1 or 2"),
   ],
   RegisterTask
 );
@@ -68,6 +133,7 @@ router.post(
 /**
  * Login route
  */
+
 router.post(
   "/login",
   [

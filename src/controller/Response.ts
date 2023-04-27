@@ -8,13 +8,13 @@
  * [2]=vendor
  */
 class ResponseObj {
-  role: number;
+  status: number;
   data: object;
   meta: object;
   msg: string;
 
-  constructor(role: number, data: object, meta: object, msg: string) {
-    this.role = role;
+  constructor(status: number, data: object, meta: object, msg: string) {
+    this.status = status;
     this.data = data;
     this.meta = meta;
     this.msg = msg;

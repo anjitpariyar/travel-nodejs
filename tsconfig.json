@@ -5,6 +5,7 @@
     "module": "commonjs",
     "rootDir": "./src",
     "outDir": "./dist",
+    "baseUrl": "./",
     "esModuleInterop": true,
     "strict": false,
     "experimentalDecorators": true,

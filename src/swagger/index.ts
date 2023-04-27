@@ -1,6 +1,5 @@
 import swaggerJSDoc from "swagger-jsdoc";
 const path = require("path");
-
 const options = {
   definition: {
     openapi: "3.0.1",
@@ -12,7 +11,27 @@ const options = {
     servers: [{ url: process.env.API }],
   },
   apis: [path.join(__dirname, "../routes/authRoutes.ts")],
+  components: {
+    schemas: {
+      loginResp: {
+        type: "object",
+        properties: {
+          status: {
+            type: "integer",
+          },
+          data: {
+            type: "object",
+          },
+          meta: {
+            type: "object",
+          },
+          msg: {
+            type: "string",
+          },
+        },
+      },
+    },
+  },
 };
-console.log(`${__dirname}/routes/authRoutes.ts`);
 
 export const swaggerSpec = swaggerJSDoc(options);
