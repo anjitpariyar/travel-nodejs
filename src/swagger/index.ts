@@ -10,7 +10,12 @@ const options = {
     schemes: ["http", "https"],
     servers: [{ url: process.env.API }],
   },
-  apis: ["src/routes/authRoutes.ts"],
+  apis: [
+    path.join(
+      __dirname,
+      `../routes/authRoutes.${process.env.Env === "production" ? "js" : "ts"}`
+    ),
+  ],
 };
-
+// console.log("__dirname", __dirname);
 export const swaggerSpec = swaggerJSDoc(options);
