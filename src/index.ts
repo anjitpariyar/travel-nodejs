@@ -10,7 +10,7 @@ import routes from "./routes";
 const swaggerDocument = require("./swagger.json");
 const swaggeroptions = {
   customCssUrl:
-    "https://cdn.jsdelivr.net/npm/swagger-ui-dist@3.20.3/swagger-ui.css",
+    "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.18.3/swagger-ui.css",
 };
 declare global {
   namespace Express {
