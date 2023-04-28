@@ -9,7 +9,6 @@ const options = {
     },
     schemes: ["http", "https"],
     servers: [{ url: process.env.API }],
-    customCssUrl: "./swagger-ui.css",
   },
   apis: [
     path.join(
@@ -17,6 +16,7 @@ const options = {
       `../routes/*${process.env.Env === "production" ? "js" : "ts"}`
     ),
   ],
+  customCssUrl: "./swagger-ui.css",
 };
 
 export const swaggerSpec = swaggerJSDoc(options);
