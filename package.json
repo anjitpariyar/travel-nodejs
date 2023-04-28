@@ -9,7 +9,7 @@
     "dev": "nodemon src/index.ts",
     "build": "rimraf dist && tsc && yarn copy-files",
     "check": "tsc --project tsconfig.json",
-    "copy-files": "copyfiles -u 1 src/swagger/*.css dist/"
+    "copy-files": "copyfiles -u 1 src/swagger/*.css dist/ && copyfiles -u 1 src/*.json dist/ "
   },
   "keywords": [
     "travel"

@@ -6,8 +6,11 @@ require("dotenv").config(); //The dotenv for env usage
 // comp
 import connectDb from "./db/Dbconnect";
 import routes from "./routes";
-import { swaggerSpec } from "./swagger";
-
+// import { swaggerSpec } from "./swagger";
+const swaggerDocument = require("./swagger.json");
+const swaggeroptions = {
+  customCssUrl: "./swagger/swagger-ui.css",
+};
 declare global {
   namespace Express {
     export interface Request {
@@ -31,7 +34,11 @@ app.use(cors());
  */
 let server = http.createServer(app);
 // connecting to swagger
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerDocument, swaggeroptions)
+);
 /**
  * Making port for the app
  */

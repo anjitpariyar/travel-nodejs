@@ -1,0 +1,176 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "REST API for Swagger Documentation for our Travel APP",
+    "version": "1.0.0"
+  },
+  "schemes": ["http", "https"],
+  "servers": [
+    {
+      "url": "https://travel-nodejs.vercel.app/",
+      "description": "Production"
+    },
+    {
+      "url": "http://localhost:4001/",
+      "description": "Development"
+    }
+  ],
+  "paths": {
+    "/auth": {
+      "post": {
+        "summary": "for registration",
+        "tags": ["Auth"],
+        "produces": ["application/json"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "email",
+                    "example": "anjitpariyar@gmail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "role": {
+                    "type": "number",
+                    "example": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "email",
+                      "example": "anjitpariyar@gmail.com"
+                    },
+                    "avatarUrl": {
+                      "type": "string",
+                      "example": "https://res.cloudinary.com/dem2xvk2e/image/upload/v1682476653/chat/qfemlneebclcpd2pwi2h.png"
+                    },
+                    "role": {
+                      "type": "number",
+                      "example": 1
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "summary": "for login",
+        "tags": ["Auth"],
+        "produces": ["application/json"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "email",
+                    "example": "anjitpariyar@gmail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "access_token": {
+                          "type": "string"
+                        },
+                        "user": {
+                          "type": "object",
+                          "properties": {
+                            "_id": {
+                              "type": "string"
+                            },
+                            "email": {
+                              "type": "string"
+                            },
+                            "role": {
+                              "type": "integer"
+                            },
+                            "avatarUrl": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ExampleSchemaBody": {
+        "properties": {
+          "responseText": {
+            "type": "string",
+            "example": "This is some example string! This is an endpoint"
+          }
+        }
+      },
+      "ExampleSchemaHeader": {
+        "required": ["text"],
+        "properties": {
+          "text": {
+            "type": "string",
+            "example": "This is some example string!"
+          }
+        }
+      }
+    }
+  }
+}

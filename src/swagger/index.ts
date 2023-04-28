@@ -14,7 +14,7 @@ const options = {
         description: "Production",
       },
       {
-        url: `http://localhost:4001/`,
+        url: "http://localhost:4001/",
         description: "Development",
       },
     ],
