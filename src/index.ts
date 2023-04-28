@@ -9,7 +9,7 @@ import routes from "./routes";
 // import { swaggerSpec } from "./swagger";
 const swaggerDocument = require("./swagger.json");
 const swaggeroptions = {
-  customCssUrl: "./swagger/swagger-ui.css",
+  customCssUrl: "./swagger-ui.css",
 };
 declare global {
   namespace Express {
