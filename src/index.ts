@@ -26,12 +26,10 @@ app.use(express.json());
 
 //Disabling cors
 app.use(cors());
-
 /**
  * Creating an http server
  */
 let server = http.createServer(app);
-
 // connecting to swagger
 app.use(
   "/api-docs",

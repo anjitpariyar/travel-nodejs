@@ -9,6 +9,7 @@ const options = {
     },
     schemes: ["http", "https"],
     servers: [{ url: process.env.API }],
+    customCssUrl: "./swagger-ui.css",
   },
   apis: [
     path.join(
@@ -17,4 +18,5 @@ const options = {
     ),
   ],
 };
+
 export const swaggerSpec = swaggerJSDoc(options);
