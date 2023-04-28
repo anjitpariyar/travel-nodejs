@@ -8,15 +8,12 @@ const options = {
       version: "1.0.0",
     },
     schemes: ["http", "https"],
-    servers: [
-      { url: "https://travel-nodejs.vercel.app/" },
-      { url: "http://localhost:4001/" },
-    ],
+    servers: [{ url: process.env.API }],
   },
   apis: [
     path.join(
       __dirname,
-      `../routes/authRoutes.${process.env.Env === "production" ? "js" : "ts"}`
+      `../routes/*${process.env.Env === "production" ? "js" : "ts"}`
     ),
   ],
 };

@@ -7,6 +7,7 @@ require("dotenv").config(); //The dotenv for env usage
 import connectDb from "./db/Dbconnect";
 import routes from "./routes";
 import { swaggerSpec } from "./swagger";
+
 declare global {
   namespace Express {
     export interface Request {
@@ -34,7 +35,7 @@ let server = http.createServer(app);
 // connecting to swagger
 app.use(
   "/api-docs",
-  express.static("swagger-ui-dist/", { index: false }),
+  express.static("swagger-ui-express", { index: false }),
   swaggerUi.serve,
   swaggerUi.setup(swaggerSpec)
 );
