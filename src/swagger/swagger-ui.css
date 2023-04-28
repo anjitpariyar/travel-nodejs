@@ -2,6 +2,7 @@
   color: #3b4151;
   /*! normalize.css v7.0.0 | MIT License | github.com/necolas/normalize.css */
   font-family: sans-serif;
+  display: none !important;
 }
 .swagger-ui html {
   -ms-text-size-adjust: 100%;

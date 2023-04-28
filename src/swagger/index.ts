@@ -8,7 +8,16 @@ const options = {
       version: "1.0.0",
     },
     schemes: ["http", "https"],
-    servers: [{ url: process.env.API }],
+    servers: [
+      {
+        url: "https://travel-nodejs.vercel.app/",
+        description: "Production",
+      },
+      {
+        url: `http://localhost:4001/`,
+        description: "Development",
+      },
+    ],
   },
   apis: [
     path.join(
@@ -16,7 +25,9 @@ const options = {
       `../routes/*${process.env.Env === "production" ? "js" : "ts"}`
     ),
   ],
-  customCssUrl: "./swagger-ui.css",
+  customCssUrl: "swagger-ui.css",
 };
 
-export const swaggerSpec = swaggerJSDoc(options);
+export const swaggerSpec = swaggerJSDoc(options, {
+  customCssUrl: "swagger-ui.css",
+});

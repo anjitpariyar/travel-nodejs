@@ -31,12 +31,7 @@ app.use(cors());
  */
 let server = http.createServer(app);
 // connecting to swagger
-app.use(
-  "/api-docs",
-  express.static("swagger-ui-express", { index: false }),
-  swaggerUi.serve,
-  swaggerUi.setup(swaggerSpec)
-);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 /**
  * Making port for the app
  */
