@@ -6,7 +6,7 @@ require("dotenv").config(); //The dotenv for env usage
 // comp
 import connectDb from "./db/Dbconnect";
 import routes from "./routes";
-// import { swaggerSpec } from "./swagger";
+
 const swaggerDocument = require("./swagger.json");
 const swaggeroptions = {
   customCssUrl:
