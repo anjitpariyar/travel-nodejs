@@ -32,6 +32,10 @@
                     "type": "email",
                     "example": "anjitpariyar@gmail.com"
                   },
+                  "fullName": {
+                    "type": "string",
+                    "example": "anj it"
+                  },
                   "password": {
                     "type": "string",
                     "example": "string"
@@ -56,6 +60,10 @@
                     "email": {
                       "type": "email",
                       "example": "anjitpariyar@gmail.com"
+                    },
+                    "fullName": {
+                      "type": "string",
+                      "example": "anj it"
                     },
                     "avatarUrl": {
                       "type": "string",
@@ -125,6 +133,9 @@
                               "type": "string"
                             },
                             "email": {
+                              "type": "string"
+                            },
+                            "fullName": {
                               "type": "string"
                             },
                             "role": {

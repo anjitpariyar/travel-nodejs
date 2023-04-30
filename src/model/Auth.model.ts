@@ -8,10 +8,15 @@ export interface IAuth extends mongoose.Document {
   password: string;
   role: string;
   avatarUrl?: string;
+  fullName: string;
 }
 const AuthSchema = new mongoose.Schema(
   {
     email: {
+      type: String,
+      required: true,
+    },
+    fullName: {
       type: String,
       required: true,
     },

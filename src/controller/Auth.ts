@@ -16,7 +16,7 @@ dotenv.config();
  * @returns
  */
 export const RegisterTask = async (req: Request, res: Response) => {
-  let { email, password, role } = req.body;
+  let { email, password, role, fullName } = req.body;
   //Checking validations
   let errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -42,6 +42,7 @@ export const RegisterTask = async (req: Request, res: Response) => {
   let newUser = new Auth();
   newUser.email = email;
   newUser.role = role;
+  newUser.fullName = fullName;
   newUser.avatarUrl = gravatar.url(email, {
     s: "56",
     r: "pg",
@@ -65,6 +66,7 @@ export const RegisterTask = async (req: Request, res: Response) => {
       email: newUser.email,
       role: newUser.role,
       avatarUrl: newUser.avatarUrl,
+      fullName: newUser.fullName,
     };
     let resData = new ResponseObj(
       200,
@@ -136,6 +138,7 @@ export const LoginTask = async (req: Request, res: Response) => {
     let userData = {
       _id: findUser._id,
       email: findUser.email,
+      fullName: findUser.fullName,
       role: findUser.role,
       avatarUrl: findUser.avatarUrl,
     };
