@@ -1,17 +1,17 @@
 import { Router } from "express";
-import { deleteCommentTask, postCommentTask } from "../controller/Comment";
 import auth from "../middleware/auth";
+import { getHotels } from "../controller/Hotel";
 
 let router = Router();
 
 /**
  * Post Comment
  */
-router.post("/", postCommentTask);
+router.get("/", getHotels);
 
 /**
  * Delete comment
  */
-router.delete("/:fId/:cId", deleteCommentTask);
+// router.get("/:fId", deleteCommentTask);
 
 export default router;

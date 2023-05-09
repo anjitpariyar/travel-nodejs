@@ -1,6 +1,6 @@
 import { Router } from "express";
 import authRoutes from "./authRoutes";
-import commentRoutes from "./commentRoutes";
+import hotelRoutes from "./hotelRoutes";
 
 const router = Router();
 // testing
@@ -11,6 +11,12 @@ router.use("/test", (req, res) => {
  * Authentication routes
  */
 router.use("/auth", authRoutes);
+
+/**
+ * hotels routes
+ */
+
+router.use("/hotels", hotelRoutes);
 
 /**
  * Profile routes
@@ -30,6 +36,5 @@ router.use("/auth", authRoutes);
 /**
  * Comment routes
  */
-router.use("/comment", commentRoutes);
 
 export default router;
