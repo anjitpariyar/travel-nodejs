@@ -8,14 +8,14 @@ export const getHotels = async (req: Request, res: Response) => {
   try {
     const hotels = await Hotels.find();
     console.log("hotes", hotels);
-    // if (Object(feeds).length === 0) {
-    //   const paginate = new respPagination(0, 0, 0);
-    //   const responseObj = new ResponseObj(200, {}, paginate, "No Data");
-    //   return res.status(200).send(responseObj);
-    // }
-    // const paginate = new respPagination(0, 0, 0);
-    // const responseObj = new ResponseObj(200, feeds, paginate, "Data");
-    // return res.status(200).send(responseObj);
+    if (Hotels.length === 0) {
+      const paginate = new respPagination(0, 0, 0);
+      const responseObj = new ResponseObj(200, {}, paginate, "No Data");
+      return res.status(200).send(responseObj);
+    }
+    const paginate = new respPagination(0, 0, 0);
+    const responseObj = new ResponseObj(200, hotels, paginate, "Data");
+    return res.status(200).send(responseObj);
   } catch (error) {
     let errorObject: object = {};
     if (error instanceof Error) errorObject = error;
