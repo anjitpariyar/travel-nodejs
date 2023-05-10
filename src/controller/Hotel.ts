@@ -7,7 +7,6 @@ require("dotenv").config();
 export const getHotels = async (req: Request, res: Response) => {
   try {
     const hotels = await Hotels.find();
-    console.log("hotes", hotels);
     if (Hotels.length === 0) {
       const paginate = new respPagination(0, 0, 0);
       const responseObj = new ResponseObj(200, {}, paginate, "No Data");
@@ -20,6 +19,31 @@ export const getHotels = async (req: Request, res: Response) => {
     let errorObject: object = {};
     if (error instanceof Error) errorObject = error;
     let resData = new ResponseObj(500, errorObject, {}, "Something went wrong");
+    return res.send(resData);
+  }
+};
+
+export const getHotelsByID = async (req: Request, res: Response) => {
+  try {
+    const hotel = await Hotels.findById(req.params.id);
+    console.log("hotel", hotel);
+    if (hotel === null) {
+      let resData = new ResponseObj(200, {}, {}, "Empty data");
+      return res.send(resData);
+    } else {
+      const responseObj = new ResponseObj(200, hotel, {}, "Data");
+      return res.send(responseObj);
+    }
+  } catch (error) {
+    console.log("error", error);
+    let errorObject: object = {};
+    if (error instanceof Error) errorObject = error;
+    let resData = new ResponseObj(
+      500,
+      errorObject,
+      {},
+      error?.data?.message ?? "Something went wrong"
+    );
     return res.send(resData);
   }
 };
