@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getCategory } from "../controller/Category";
+import { getCategory, getCategoryByID } from "../controller/Category";
 let router = Router();
 
 /**
@@ -10,6 +10,6 @@ router.get("/", getCategory);
 /**
  * Delete comment
  */
-// router.get("/:id", getHotelsByID);
+router.get("/:id", getCategoryByID);
 
 export default router;

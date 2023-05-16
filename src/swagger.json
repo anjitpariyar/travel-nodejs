@@ -337,6 +337,110 @@
           }
         }
       }
+    },
+    "/category": {
+      "get": {
+        "summary": "get categories list",
+        "tags": ["Category"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "icon": {
+                            "type": "string",
+                            "description": "The icon associated with the item."
+                          },
+                          "name": {
+                            "type": "string",
+                            "description": "The name of the item."
+                          },
+                          "pid": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+
+                    "message": {
+                      "type": "string",
+                      "example": "Data"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/category/{id}": {
+      "get": {
+        "summary": "get categories list",
+        "tags": ["Category"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the category",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "icon": {
+                      "type": "string",
+                      "description": "The icon associated with the item."
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "The name of the item."
+                    },
+                    "backgroundImage": {
+                      "type": "string",
+                      "description": "The background image associated with the item."
+                    },
+                    "about": {
+                      "type": "string",
+                      "description": "A description or information about the item."
+                    },
+                    "destination": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "An array of destination names associated with the item."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
