@@ -1,6 +1,7 @@
 import { Router } from "express";
 import authRoutes from "./authRoutes";
 import hotelRoutes from "./hotelRoutes";
+import Category from "./Category";
 
 const router = Router();
 // testing
@@ -17,6 +18,9 @@ router.use("/auth", authRoutes);
  */
 
 router.use("/hotels", hotelRoutes);
+
+// category
+router.use("/category", Category);
 
 /**
  * Profile routes
