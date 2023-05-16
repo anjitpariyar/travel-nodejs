@@ -1,16 +1,15 @@
 import { Router } from "express";
-import { getHotels, getHotelsByID } from "../controller/Hotel";
-
+import { getCategory } from "../controller/Category";
 let router = Router();
 
 /**
  * Post Comment
  */
-router.get("/", getHotels);
+router.get("/", getCategory);
 
 /**
  * Delete comment
  */
-router.get("/:id", getHotelsByID);
+// router.get("/:id", getHotelsByID);
 
 export default router;

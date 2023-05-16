@@ -18,3 +18,27 @@ export const getCategory = async (req: Request, res: Response) => {
     return res.send(resData);
   }
 };
+
+export const getCategoryByID = async (req: Request, res: Response) => {
+  try {
+    const category = await Category.findById(req.params.id);
+    if (category === null) {
+      let resData = new ResponseObj(200, {}, {}, "Empty data");
+      return res.send(resData);
+    } else {
+      const responseObj = new ResponseObj(200, category, {}, "Data");
+      return res.send(responseObj);
+    }
+  } catch (error) {
+    console.log("error", error);
+    let errorObject: object = {};
+    if (error instanceof Error) errorObject = error;
+    let resData = new ResponseObj(
+      500,
+      errorObject,
+      {},
+      error?.data?.message ?? "Something went wrong"
+    );
+    return res.send(resData);
+  }
+};

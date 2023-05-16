@@ -8,6 +8,7 @@ const router = Router();
 router.use("/test", (req, res) => {
   res.send("working..");
 });
+
 /**
  * Authentication routes
  */
@@ -16,7 +17,6 @@ router.use("/auth", authRoutes);
 /**
  * hotels routes
  */
-
 router.use("/hotels", hotelRoutes);
 
 // category
