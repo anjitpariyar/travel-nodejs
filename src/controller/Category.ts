@@ -4,7 +4,7 @@ import Category from "../model/Category.model";
 
 export const getCategory = async (req: Request, res: Response) => {
   try {
-    const categories = await Category.find();
+    const categories = await Category.find().select("name icon");
     if (categories.length === 0) {
       const responseObj = new ResponseObj(200, {}, {}, "No Data");
       return res.status(200).send(responseObj);
