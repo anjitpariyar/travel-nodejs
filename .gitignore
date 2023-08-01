@@ -1,5 +1,7 @@
 /node_modules
 /dist
-
+.yarnrc.yml
+.yarn
+.yarn*
 
 .env

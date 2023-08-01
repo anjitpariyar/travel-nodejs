@@ -2,6 +2,7 @@ import { Router } from "express";
 import authRoutes from "./authRoutes";
 import hotelRoutes from "./hotelRoutes";
 import Category from "./Category";
+import Destination from "./destination";
 
 const router = Router();
 // testing
@@ -21,6 +22,9 @@ router.use("/hotels", hotelRoutes);
 
 // category
 router.use("/category", Category);
+
+// category
+router.use("/destination", Destination);
 
 /**
  * Profile routes
