@@ -77,11 +77,4 @@ const HotelSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const ReviewScheme = {
-  name: {
-    type: String,
-    readonly: true,
-  },
-};
-
 export default mongoose.model<IHotel>("Hotels", HotelSchema);

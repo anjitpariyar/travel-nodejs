@@ -24,7 +24,7 @@ router.use("/hotels", hotelRoutes);
 router.use("/category", Category);
 
 // category
-router.use("/destination", Destination);
+router.use("/destinations", Destination);
 
 /**
  * Profile routes
