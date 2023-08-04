@@ -15,6 +15,11 @@
       "description": "Development"
     }
   ],
+  "security": [
+    {
+      "xAuthToken": []
+    }
+  ],
   "paths": {
     "/auth": {
       "post": {
@@ -547,6 +552,40 @@
           }
         }
       }
+    },
+    "/user": {
+      "get": {
+        "summary": "Get user profile",
+        "tags": ["user"],
+        "security": [
+          {
+            "xAuthToken": []
+          }
+        ],
+        "parameters": [],
+        "requestBody": {},
+        "responses": {
+          "200": {
+            "description": "Profile found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Profile"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No token, authorization denied"
+          },
+          "404": {
+            "description": "Profile not found"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -680,6 +719,60 @@
           }
         }
       },
+      "Profile": {
+        "type": "object",
+        "properties": {
+          "authId": { "type": "string" },
+          "firstName": { "type": "string" },
+          "lastName": { "type": "string" },
+          "avatarUrl": { "type": "string" },
+          "bio": { "type": "string" },
+          "gender": { "type": "string" },
+          "dob": { "type": "string" },
+          "address": { "type": "string" },
+          "contact": { "type": "string" },
+          "interest": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Interest"
+            }
+          },
+          "visitedLocation": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VisitedLocation"
+            }
+          },
+          "liked": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VisitedLocation"
+            }
+          },
+          "booked": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VisitedLocation"
+            }
+          }
+        }
+      },
+      "Interest": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" }
+        }
+      },
+      "VisitedLocation": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "imageSrc": { "type": "string" },
+          "name": { "type": "string" },
+          "rating": { "type": "string" }
+        }
+      },
       "ErrorResponse": {
         "type": "object",
         "properties": {
@@ -692,6 +785,13 @@
             "example": "Internal Server Error"
           }
         }
+      }
+    },
+    "securitySchemes": {
+      "xAuthToken": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-auth-token"
       }
     }
   }

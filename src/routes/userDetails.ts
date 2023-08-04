@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { check } from "express-validator";
 import { GetProfile } from "../controller/UserDetails";
 import auth from "../middleware/auth";
 import multipart from "connect-multiparty";
@@ -17,10 +16,5 @@ let router = Router();
  * Get profile
  */
 router.get("/", auth, GetProfile);
-
-/**
- * Upload DP
- */
-// router.post("/dp", [auth, multipartMiddleware], UploadDP);
 
 export default router;
