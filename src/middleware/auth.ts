@@ -15,7 +15,6 @@ dotenv.config();
 const auth = async (req: Request, res: Response, next: NextFunction) => {
   // Get token from header
   const token = req.header("x-auth-token");
-  console.log("im called", token);
   // Check if not token
   if (!token) {
     let respObject = new ResponseObj(

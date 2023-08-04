@@ -1,5 +1,5 @@
-import Profile, { IProfile } from "../model/Profile.model";
-import Auth from "../model/Auth.model";
+import Auth, { IAuth } from "../model/Auth.model";
+// import Auth  from "../model/Auth.model";
 import { validationResult } from "express-validator";
 import ResponseObj from "./Response";
 import { Response, Request } from "express";
@@ -15,43 +15,6 @@ import { Response, Request } from "express";
 /**
  * Creates a profile
  */
-// export const CreateProfileTask = async (req: Request, res: Response) => {
-//   let { firstname, lastname, avatar, address, contact } = req.body;
-//   //Checking the validetion error
-//   let errors = validationResult(req);
-//   if (!errors.isEmpty()) {
-//     let respObject = new ResponseObj(
-//       400,
-//       errors,
-//       {},
-//       "Validation error occured"
-//     );
-//     return res.status(400).send(respObject);
-//   }
-//   try {
-//     let newprofile = new Profile({
-//       authId: req.user.id,
-//       firstname: firstname,
-//       lastname: lastname,
-//       avatar: avatar,
-//       address: address,
-//       contact: contact,
-//     });
-//     await newprofile.save();
-//     let respObject = new ResponseObj(
-//       200,
-//       newprofile,
-//       {},
-//       "Profile added successfully"
-//     );
-//     return res.status(200).send(respObject);
-//   } catch (error) {
-//     let errorObject: object = {};
-//     if (error instanceof Error) errorObject = error;
-//     let resData = new ResponseObj(400, errorObject, {}, "Profile save failed");
-//     return res.send(resData);
-//   }
-// };
 
 /**
  * Edit a profile
@@ -114,7 +77,7 @@ import { Response, Request } from "express";
  */
 export const GetProfile = async (req: Request, res: Response) => {
   //finding if profile exist
-  let profile = await Profile.findOne({ authId: req.user.id });
+  let profile = await Auth.findOne({ _id: req.user.id });
   if (!profile) {
     let respObject = new ResponseObj(404, {}, {}, "Profile not found");
     return res.status(404).send(respObject);
