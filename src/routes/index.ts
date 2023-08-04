@@ -3,6 +3,7 @@ import authRoutes from "./authRoutes";
 import hotelRoutes from "./hotelRoutes";
 import Category from "./Category";
 import Destination from "./destination";
+import UserDetails from "./userDetails";
 
 const router = Router();
 // testing
@@ -29,7 +30,7 @@ router.use("/destinations", Destination);
 /**
  * Profile routes
  */
-// router.use("/profile", profileRoutes);
+router.use("/user", UserDetails);
 
 /**
  * Bucket routes
