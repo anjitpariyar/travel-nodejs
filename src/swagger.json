@@ -572,6 +572,74 @@
         }
       }
     },
+    "/destinations/cities": {
+      "get": {
+        "summary": "Get unique cities",
+        "tags": ["Destination"],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "page": {
+                          "type": "integer",
+                          "example": 0
+                        },
+                        "pageSize": {
+                          "type": "integer",
+                          "example": 0
+                        },
+                        "totalItem": {
+                          "type": "integer",
+                          "example": 0
+                        }
+                      }
+                    },
+                    "msg": {
+                      "type": "string",
+                      "example": "Data"
+                    }
+                  }
+                },
+                "example": {
+                  "status": 200,
+                  "data": [
+                    "Bhaktapur",
+                    "Nagarkot",
+                    "Kathmandu",
+                    "Chitwan",
+                    "Solukhumbu",
+                    "Panauti"
+                  ],
+                  "meta": {
+                    "page": 0,
+                    "pageSize": 0,
+                    "totalItem": 0
+                  },
+                  "msg": "Data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/user": {
       "get": {
         "summary": "Get user profile",

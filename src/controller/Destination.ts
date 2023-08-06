@@ -54,29 +54,44 @@ export const getDestinationByID = async (req: Request, res: Response) => {
 
 export const getDestinationByLocation = async (req: Request, res: Response) => {
   try {
-    const destination = await Destination.aggregate([
-      {
-        $group: {
-          _id: null,
-          locations: { $addToSet: "$location" },
+    const { location } = req.query;
+    if (location === null) {
+      const destination = await Destination.aggregate([
+        {
+          $group: {
+            _id: null,
+            locations: { $addToSet: "$location" },
+          },
         },
-      },
-      {
-        $project: {
-          _id: 0,
-          locations: 1,
+        {
+          $project: {
+            _id: 0,
+            locations: 1,
+          },
         },
-      },
-    ]);
-    if (destination.length === 0) {
+      ]);
+      if (destination.length === 0) {
+        const paginate = new respPagination(0, 0, 0);
+        const responseObj = new ResponseObj(200, {}, paginate, "No Data");
+        return res.status(200).send(responseObj);
+      }
       const paginate = new respPagination(0, 0, 0);
-      const responseObj = new ResponseObj(200, {}, paginate, "No Data");
+      const newLocation = processLocations(destination[0].locations);
+      const responseObj = new ResponseObj(200, newLocation, paginate, "Data");
+      return res.status(200).send(responseObj);
+    } else {
+      const destination = await Destination.find({
+        location: { $regex: new RegExp(location as string, "i") },
+      });
+      if (destination.length === 0) {
+        const paginate = new respPagination(0, 0, 0);
+        const responseObj = new ResponseObj(200, {}, paginate, "No Data");
+        return res.status(200).send(responseObj);
+      }
+      const paginate = new respPagination(0, 0, 0);
+      const responseObj = new ResponseObj(200, destination, paginate, "Data");
       return res.status(200).send(responseObj);
     }
-    const paginate = new respPagination(0, 0, 0);
-    const newLocation = processLocations(destination[0].locations);
-    const responseObj = new ResponseObj(200, newLocation, paginate, "Data");
-    return res.status(200).send(responseObj);
   } catch (error) {
     let errorObject: object = {};
     if (error instanceof Error) errorObject = error;
