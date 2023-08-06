@@ -26,7 +26,6 @@ export const getHotels = async (req: Request, res: Response) => {
 export const getHotelsByID = async (req: Request, res: Response) => {
   try {
     const hotel = await Hotels.findById(req.params.id);
-    console.log("hotel", hotel);
     if (hotel === null) {
       let resData = new ResponseObj(200, {}, {}, "Empty data");
       return res.send(resData);

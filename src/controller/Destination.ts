@@ -55,7 +55,7 @@ export const getDestinationByID = async (req: Request, res: Response) => {
 export const getDestinationByLocation = async (req: Request, res: Response) => {
   try {
     const { location } = req.query;
-    if (location === null) {
+    if (location === undefined) {
       const destination = await Destination.aggregate([
         {
           $group: {
