@@ -1,15 +1,25 @@
 import { Router } from "express";
-import { getDestination, getDestinationByID } from "../controller/Destination";
+import {
+  getDestination,
+  getDestinationByID,
+  getDestinationByLocation,
+} from "../controller/Destination";
 
 let router = Router();
 
 /**
- * Post Comment
+ * get destination
  */
 router.get("/", getDestination);
 
 /**
- * Delete comment
+ * get destination cities
+ */
+
+router.get("/cities", getDestinationByLocation);
+
+/**
+ * get destination by id
  */
 router.get("/:id", getDestinationByID);
 

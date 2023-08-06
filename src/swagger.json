@@ -21,6 +21,25 @@
     }
   ],
   "paths": {
+    "/test": {
+      "get": {
+        "summary": "Test endpoint to wake server from sleep",
+        "description": "Returns a simple 'working...' message.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "working.."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/auth": {
       "post": {
         "summary": "for registration",
