@@ -61,7 +61,7 @@ const AuthSchema = new mongoose.Schema(
     role: {
       type: Number,
       required: true,
-      default: 1, // 0 = admin (Default), 1 = nirmal user, 2 = hotel vendor
+      default: 1, // 0 = admin (Default), 1 = normal user, 2 = hotel vendor
     },
     avatarUrl: {
       type: String,
