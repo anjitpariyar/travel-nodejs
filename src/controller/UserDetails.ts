@@ -1,5 +1,4 @@
 import Auth, { IAuth } from "../model/Auth.model";
-// import Auth  from "../model/Auth.model";
 import { validationResult } from "express-validator";
 import ResponseObj from "./Response";
 import { Response, Request } from "express";
@@ -19,58 +18,69 @@ import { Response, Request } from "express";
 /**
  * Edit a profile
  */
-// export const EditProfileTask = async (req: Request, res: Response) => {
-//   let {
-//     firstname,
-//     lastname,
-//     avatar,
-//     address,
-//     contact,
-//     bio,
-//     gender,
-//     dob,
-//     hidenumber,
-//   } = req.body;
+export const EditProfileTask = async (req: Request, res: Response) => {
+  let {
+    email,
+    fullName,
+    avatarUrl,
+    bio,
+    gender,
+    dob,
+    address,
+    contact,
+    interest,
+    visitedLocation,
+    booked,
+  } = req.body;
 
-//   let profile = new Profile();
+  let profile = new Auth();
 
-//   //New pbject for updated fields
-//   let newProfile = {} as IProfile;
-//   if (firstname) newProfile.firstname = firstname;
-//   if (lastname) newProfile.lastname = lastname;
-//   if (avatar) newProfile.avatar = avatar;
-//   if (address) newProfile.address = address;
-//   if (contact) newProfile.contact = contact;
-//   if (bio) newProfile.bio = bio;
-//   if (gender) newProfile.gender = gender;
-//   if (dob) newProfile.dob = dob;
-//   if (hidenumber) newProfile.hidenumber = hidenumber;
-//   try {
-//     let findUser = await Auth.findById(req.user.id);
-//     if (!findUser) {
-//       let respObject = new ResponseObj(400, newProfile, {}, "User not found");
-//       res.send(respObject);
-//     } else {
-//       profile = await Profile.findOneAndUpdate(
-//         { authId: req.user.id },
-//         { $set: newProfile },
-//         { new: true }
-//       );
-//       let respObject = new ResponseObj(
-//         200,
-//         profile,
-//         {},
-//         "Profile Update Success"
-//       );
-//       return res.status(200).send(respObject);
-//     }
-//   } catch (error) {
-//     let errorObject: object = {};
-//     if (error instanceof Error) errorObject = error;
-//     let resData = new ResponseObj(400, errorObject, {}, "Profile Update Error");
-//     return res.send(resData);
-//   }
-// };
+  //New pbject for updated fields
+  let newProfile = {} as IAuth;
+  if (email) newProfile.email = email;
+  if (fullName) newProfile.fullName = fullName;
+  if (avatarUrl) newProfile.avatarUrl = avatarUrl;
+  if (address) newProfile.address = address;
+  if (contact) newProfile.contact = contact;
+  if (bio) newProfile.bio = bio;
+  if (gender) newProfile.gender = gender;
+  if (dob) newProfile.dob = dob;
+  if (interest) {
+    newProfile.interest = interest;
+  }
+  if (visitedLocation) {
+    newProfile.visitedLocation = visitedLocation;
+  }
+  if (booked) {
+    newProfile.booked = booked;
+  }
+
+  try {
+    let findUser = await Auth.findById(req.user.id);
+    if (!findUser) {
+      let respObject = new ResponseObj(400, newProfile, {}, "User not found");
+      res.send(respObject);
+    } else {
+      profile = await Auth.findOneAndUpdate(
+        { authId: req.user.id },
+        { $set: newProfile },
+        { new: true }
+      );
+      let respObject = new ResponseObj(
+        200,
+        profile,
+        {},
+        "Profile Update Success"
+      );
+      return res.status(200).send(respObject);
+    }
+  } catch (error) {
+    let errorObject: object = {};
+    if (error instanceof Error) errorObject = error;
+    let resData = new ResponseObj(400, errorObject, {}, "Profile Update Error");
+    return res.send(resData);
+  }
+};
 
 /**
  * Fetch the profile

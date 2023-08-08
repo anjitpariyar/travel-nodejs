@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { GetProfile } from "../controller/UserDetails";
+import { GetProfile, EditProfileTask } from "../controller/UserDetails";
 import auth from "../middleware/auth";
 import multipart from "connect-multiparty";
 
@@ -10,7 +10,7 @@ let router = Router();
 /**
  * Create profile route
  */
-// router.put("/", auth, EditProfileTask);
+router.put("/", auth, EditProfileTask);
 
 /**
  * Get profile

@@ -25,10 +25,10 @@ export interface IAuth extends mongoose.Document {
   dob?: string;
   address?: string;
   contact?: string;
-  interest?: IInterest[];
-  visitedLocation?: IVisitedLocation[];
-  liked?: IVisitedLocation[];
-  booked?: IVisitedLocation[];
+  interest?: string[];
+  visitedLocation?: string[];
+  booked?: string[];
+  bio?: string;
 }
 
 // Define the sub-schemas for IInterest and IVisitedLocation
@@ -75,7 +75,6 @@ const AuthSchema = new mongoose.Schema(
     contact: { type: String, required: false },
     interest: { type: [interestSchema], required: false },
     visitedLocation: { type: [visitedLocationSchema], required: false },
-    liked: { type: [visitedLocationSchema], required: false },
     booked: { type: [visitedLocationSchema], required: false },
   },
   { timestamps: true }
