@@ -683,6 +683,73 @@
             "description": "Server Error"
           }
         }
+      },
+      "put": {
+        "summary": "Update user profile",
+        "tags": ["user"],
+        "security": [
+          {
+            "xAuthToken": []
+          }
+        ],
+        "requestBody": {
+          "description": "User profile data to update",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserProfileUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseSuccess"
+                },
+                "example": {
+                  "status": 200,
+                  "data": {
+                    "_id": "6149a43b56e8e4d16c3e1e22",
+                    "email": "user@example.com",
+                    "fullName": "John Doe",
+                    "role": "user",
+                    "avatarUrl": "https://example.com/avatar.jpg",
+                    "bio": "About me",
+                    "gender": "Male",
+                    "dob": "1990-01-01",
+                    "address": "123 Street, City",
+                    "contact": "1234567890",
+                    "interest": ["Travel_id", "Photography_id"],
+                    "visitedLocation": ["location_A_id", "location_A_id"],
+                    "booked": ["Hotel_A_id", "Hotel_B_id"]
+                  },
+                  "meta": {},
+                  "msg": "Profile Update Success"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseError"
+                },
+                "example": {
+                  "status": 400,
+                  "error": {},
+                  "meta": {},
+                  "msg": "Profile Update Error"
+                }
+              }
+            }
+          }
+        }
       }
     }
   },
@@ -869,6 +936,55 @@
           "imageSrc": { "type": "string" },
           "name": { "type": "string" },
           "rating": { "type": "string" }
+        }
+      },
+      "UserProfileUpdate": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "fullName": {
+            "type": "string"
+          },
+          "avatarUrl": {
+            "type": "string"
+          },
+          "bio": {
+            "type": "string"
+          },
+          "gender": {
+            "type": "string"
+          },
+          "dob": {
+            "type": "string",
+            "format": "date"
+          },
+          "address": {
+            "type": "string"
+          },
+          "contact": {
+            "type": "string"
+          },
+          "interest": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "visitedLocation": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "booked": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
         }
       },
       "ErrorResponse": {

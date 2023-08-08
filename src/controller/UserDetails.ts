@@ -1,5 +1,4 @@
 import Auth, { IAuth } from "../model/Auth.model";
-import { validationResult } from "express-validator";
 import ResponseObj from "./Response";
 import { Response, Request } from "express";
 
