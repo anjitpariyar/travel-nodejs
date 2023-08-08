@@ -73,9 +73,9 @@ const AuthSchema = new mongoose.Schema(
     dob: { type: String, required: false },
     address: { type: String, required: false },
     contact: { type: String, required: false },
-    interest: { type: [interestSchema], required: false },
-    visitedLocation: { type: [visitedLocationSchema], required: false },
-    booked: { type: [visitedLocationSchema], required: false },
+    interest: { type: [String], required: false },
+    visitedLocation: { type: [String], required: false },
+    booked: { type: [String], required: false },
   },
   { timestamps: true }
 );
