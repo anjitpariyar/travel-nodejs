@@ -24,7 +24,7 @@ export const RegisterTask = async (req: Request, res: Response) => {
       400,
       errors,
       {},
-      "Validations error occured"
+      "Validations error occurred"
     );
     return res.status(400).send(respObject);
   }
@@ -95,7 +95,7 @@ export const LoginTask = async (req: Request, res: Response) => {
       400,
       errors,
       {},
-      "Validations error occured"
+      "Validations error occurred"
     );
     return res.status(400).send(respObject);
   }
@@ -118,13 +118,13 @@ export const LoginTask = async (req: Request, res: Response) => {
     //Finally checking the password
     const isMatch = await bcrypt.compare(password, findUser.password);
     if (!isMatch) {
-      let responsObj = new ResponseObj(
+      let responseObj = new ResponseObj(
         401,
         {},
         {},
         "Sorry, Password did not matched. Please try again."
       );
-      return res.status(401).send(responsObj);
+      return res.status(401).send(responseObj);
     }
 
     let access_token = jwt.sign(
@@ -147,7 +147,7 @@ export const LoginTask = async (req: Request, res: Response) => {
       access_token: access_token,
       user: userData,
     };
-    let respObject = new ResponseObj(200, resData, {}, "Login Successfull");
+    let respObject = new ResponseObj(200, resData, {}, "Login Successful");
     return res.status(200).send(respObject);
   } catch (error) {
     console.log("error", error);

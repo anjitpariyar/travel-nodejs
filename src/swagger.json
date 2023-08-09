@@ -751,6 +751,94 @@
           }
         }
       }
+    },
+    "/user/password-update": {
+      "put": {
+        "summary": "Update user password",
+        "tags": ["user"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "New password",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "password": {
+                    "type": "string",
+                    "description": "New password",
+                    "example": "newpassword123"
+                  }
+                },
+                "required": ["password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Password updated successfully",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 200,
+                  "data": {
+                    "message": "Password updated successfully"
+                  },
+                  "meta": {},
+                  "msg": "Password updated successfully"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 400,
+                  "data": {
+                    "message": "Validation error occurred"
+                  },
+                  "meta": {},
+                  "msg": "Validation error occurred"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 409,
+                  "data": {},
+                  "meta": {},
+                  "msg": "User not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 500,
+                  "data": {},
+                  "meta": {},
+                  "msg": "Password update failed"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
