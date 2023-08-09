@@ -1,6 +1,10 @@
-import Auth, { IAuth } from "../model/Auth.model";
+import Auth, { IAuth, IInterest, IVisitedLocation } from "../model/Auth.model";
+import Category, { ICategory } from "../model/Category.model";
+import Hotels from "../model/Hotels.modal";
+import Destination from "../model/Destination.modal";
 import ResponseObj from "./Response";
 import { Response, Request } from "express";
+const mongoose = require("mongoose");
 
 export const EditProfileTask = async (req: Request, res: Response) => {
   let {
@@ -76,7 +80,63 @@ export const GetProfile = async (req: Request, res: Response) => {
     let respObject = new ResponseObj(404, {}, {}, "Profile not found");
     return res.status(404).send(respObject);
   }
+  if (!profile) {
+    const respObject = new ResponseObj(404, {}, {}, "Profile not found");
+    return res.status(404).send(respObject);
+  }
 
-  let respObject = new ResponseObj(200, profile, {}, "Profile found");
+  // Convert booked object IDs to strings
+  if (profile.booked && profile.booked.length > 0) {
+    const bookedDetails = await Hotels.find({
+      _id: { $in: profile.booked.map((id) => mongoose.Types.ObjectId(id)) },
+    }).select("name gallery");
+
+    const bookedIds: IVisitedLocation[] = bookedDetails.map((detail) => ({
+      id: detail._id.toString(),
+      name: detail.name,
+      gallery: detail.gallery,
+    }));
+    profile.booked = bookedIds;
+  }
+
+  // Convert interest object IDs to strings
+  if (profile.interest && profile.interest.length > 0) {
+    const interestDetails = await Category.find({
+      _id: { $in: profile.interest.map((id) => mongoose.Types.ObjectId(id)) },
+    }).select("name");
+
+    const interestIds: IInterest[] = interestDetails.map((detail) => ({
+      id: detail._id.toString(),
+      name: detail.name,
+    }));
+    profile.interest = interestIds;
+  }
+
+  // Convert interest object IDs to strings
+  if (profile.visitedLocation && profile.visitedLocation.length > 0) {
+    const visitedLocationDetails = await Destination.find({
+      _id: {
+        $in: profile.visitedLocation.map((id) => mongoose.Types.ObjectId(id)),
+      },
+    }).select("name");
+
+    const visitedLocationIds: IVisitedLocation[] = visitedLocationDetails.map(
+      (detail) => ({
+        id: detail._id.toString(),
+        name: detail.name,
+        gallery: detail.gallery,
+      })
+    );
+    profile.visitedLocation = visitedLocationIds;
+  }
+
+  // Omit sensitive fields and send the response
+  const sanitizedProfile = {
+    ...profile.toObject(),
+    _id: undefined,
+    password: undefined,
+  };
+
+  let respObject = new ResponseObj(200, sanitizedProfile, {}, "Profile found");
   return res.status(200).send(respObject);
 };

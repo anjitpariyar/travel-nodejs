@@ -5,15 +5,14 @@ import mongoose from "mongoose";
  */
 const Schema = mongoose.Schema;
 
-interface IInterest {
+export interface IInterest {
   id: string;
   name: string;
 }
-interface IVisitedLocation {
+export interface IVisitedLocation {
   id: string;
-  imageSrc: string;
+  gallery: string[];
   name: string;
-  rating: string;
 }
 export interface IAuth extends mongoose.Document {
   email: string;
@@ -25,9 +24,9 @@ export interface IAuth extends mongoose.Document {
   dob?: string;
   address?: string;
   contact?: string;
-  interest?: string[];
-  visitedLocation?: string[];
-  booked?: string[];
+  interest?: string[] | IInterest[];
+  visitedLocation?: string[] | IVisitedLocation[];
+  booked?: string[] | IVisitedLocation[];
   bio?: string;
 }
 
@@ -39,9 +38,8 @@ const interestSchema = new Schema({
 
 const visitedLocationSchema = new Schema({
   id: { type: String, required: true },
-  imageSrc: { type: String, required: true },
+  gallery: { type: String, required: true },
   name: { type: String, required: true },
-  rating: { type: String, required: true },
 });
 
 const AuthSchema = new mongoose.Schema(
@@ -73,9 +71,9 @@ const AuthSchema = new mongoose.Schema(
     dob: { type: String, required: false },
     address: { type: String, required: false },
     contact: { type: String, required: false },
-    interest: { type: [String], required: false },
-    visitedLocation: { type: [String], required: false },
-    booked: { type: [String], required: false },
+    interest: { type: [mongoose.Schema.Types.Mixed], required: false },
+    visitedLocation: { type: [mongoose.Schema.Types.Mixed], required: false },
+    booked: { type: [mongoose.Schema.Types.Mixed], required: false },
   },
   { timestamps: true }
 );

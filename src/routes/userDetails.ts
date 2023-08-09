@@ -3,8 +3,6 @@ import { GetProfile, EditProfileTask } from "../controller/UserDetails";
 import auth from "../middleware/auth";
 import multipart from "connect-multiparty";
 
-let multipartMiddleware = multipart();
-
 let router = Router();
 
 /**
