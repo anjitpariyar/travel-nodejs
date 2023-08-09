@@ -908,6 +908,12 @@
               "$ref": "#/components/schemas/VisitedLocation"
             }
           },
+          "liked": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VisitedLocation"
+            }
+          },
           "booked": {
             "type": "array",
             "items": {
@@ -928,7 +934,8 @@
         "properties": {
           "id": { "type": "string" },
           "imageSrc": { "type": "string" },
-          "name": { "type": "string" }
+          "name": { "type": "string" },
+          "rating": { "type": "string" }
         }
       },
       "UserProfileUpdate": {

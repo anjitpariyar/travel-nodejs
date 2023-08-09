@@ -1,9 +1,12 @@
 import Auth, { IAuth, IInterest, IVisitedLocation } from "../model/Auth.model";
-import Category, { ICategory } from "../model/Category.model";
+import Category from "../model/Category.model";
 import Hotels from "../model/Hotels.modal";
 import Destination from "../model/Destination.modal";
 import ResponseObj from "./Response";
 import { Response, Request } from "express";
+import { validationResult } from "express-validator";
+import bcrypt from "bcryptjs";
+
 const mongoose = require("mongoose");
 
 export const EditProfileTask = async (req: Request, res: Response) => {
@@ -139,4 +142,71 @@ export const GetProfile = async (req: Request, res: Response) => {
 
   let respObject = new ResponseObj(200, sanitizedProfile, {}, "Profile found");
   return res.status(200).send(respObject);
+};
+
+export const ChangePassword = async (req: Request, res: Response) => {
+  let { password } = req.body;
+  //Checking validations
+  let errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    let respObject = new ResponseObj(
+      400,
+      errors,
+      {},
+      "Validations error occurred"
+    );
+    return res.status(400).send(respObject);
+  }
+  /**
+   * Checking if the email is already existing
+   */
+  try {
+    let profile = await Auth.findById(req.user.id);
+    if (!profile) {
+      let resData = new ResponseObj(409, {}, {}, "user not found");
+      return res.status(409).send(resData);
+    }
+    /**
+     * Creating the new user object with the body request
+     */
+
+    /**
+     * Generating salt
+     */
+    let salt = await bcrypt.genSalt(10);
+    //Hashing the password
+    let newPassword = await bcrypt.hash(password, salt);
+
+    /**
+     * Saving to database
+     */
+
+    await Auth.updateOne(
+      { _id: req.user.id },
+      { $set: { password: newPassword } }
+    );
+
+    let resObj = {
+      email: profile.email,
+      role: profile.role,
+      fullName: profile.fullName,
+    };
+    let resData = new ResponseObj(
+      200,
+      resObj,
+      {},
+      "password updated successfully"
+    );
+    return res.send(resData);
+  } catch (error) {
+    let errorObject: object = {};
+    if (error instanceof Error) errorObject = error;
+    let resData = new ResponseObj(
+      400,
+      errorObject,
+      {},
+      "password updated failed"
+    );
+    return res.send(resData);
+  }
 };
