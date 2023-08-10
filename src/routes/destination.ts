@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+  SearchDestination,
   getDestination,
   getDestinationByID,
   getDestinationByLocation,
@@ -17,6 +18,8 @@ router.get("/", getDestination);
  */
 
 router.get("/cities", getDestinationByLocation);
+
+router.get("/search", SearchDestination);
 
 /**
  * get destination by id

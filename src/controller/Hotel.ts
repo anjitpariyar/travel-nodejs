@@ -46,8 +46,6 @@ export const getHotels = async (req: Request, res: Response) => {
     }
     const paginate = new respPagination(0, 0, 0);
 
-    console.log("userId", userId);
-
     const hotelsWithIsLiked = hotels.map((hotel) => {
       const isLiked = userId ? hotel.liked.includes(userId.id) : false;
       return {

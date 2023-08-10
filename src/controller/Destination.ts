@@ -7,10 +7,10 @@ require("dotenv").config();
 
 export const getDestination = async (req: Request, res: Response) => {
   try {
-    const { categoryId } = req.query;
+    const { categoryId, name } = req.query;
 
     const destination = categoryId
-      ? await Destination.find({ categoryId })
+      ? await Destination.find({ location: categoryId })
       : await Destination.find();
     if (destination.length === 0) {
       const paginate = new respPagination(0, 0, 0);
@@ -52,46 +52,58 @@ export const getDestinationByID = async (req: Request, res: Response) => {
   }
 };
 
+// this response is fucked up. it generally give cities list but for search give differ
 export const getDestinationByLocation = async (req: Request, res: Response) => {
   try {
-    const { location } = req.query;
-    if (location === undefined) {
-      const destination = await Destination.aggregate([
-        {
-          $group: {
-            _id: null,
-            locations: { $addToSet: "$location" },
-          },
+    const destination = await Destination.aggregate([
+      {
+        $group: {
+          _id: null,
+          locations: { $addToSet: "$location" },
         },
-        {
-          $project: {
-            _id: 0,
-            locations: 1,
-          },
+      },
+      {
+        $project: {
+          _id: 0,
+          locations: 1,
         },
-      ]);
-      if (destination.length === 0) {
-        const paginate = new respPagination(0, 0, 0);
-        const responseObj = new ResponseObj(200, {}, paginate, "No Data");
-        return res.status(200).send(responseObj);
-      }
+      },
+    ]);
+    if (destination.length === 0) {
       const paginate = new respPagination(0, 0, 0);
-      const newLocation = processLocations(destination[0].locations);
-      const responseObj = new ResponseObj(200, newLocation, paginate, "Data");
-      return res.status(200).send(responseObj);
-    } else {
-      const destination = await Destination.find({
-        location: { $regex: new RegExp(location as string, "i") },
-      });
-      if (destination.length === 0) {
-        const paginate = new respPagination(0, 0, 0);
-        const responseObj = new ResponseObj(200, {}, paginate, "No Data");
-        return res.status(200).send(responseObj);
-      }
-      const paginate = new respPagination(0, 0, 0);
-      const responseObj = new ResponseObj(200, destination, paginate, "Data");
+      const responseObj = new ResponseObj(200, {}, paginate, "No Data");
       return res.status(200).send(responseObj);
     }
+    const paginate = new respPagination(0, 0, 0);
+    const newLocation = processLocations(destination[0].locations);
+    const responseObj = new ResponseObj(200, newLocation, paginate, "Data");
+    return res.status(200).send(responseObj);
+  } catch (error) {
+    let errorObject: object = {};
+    if (error instanceof Error) errorObject = error;
+    let resData = new ResponseObj(500, errorObject, {}, "Something went wrong");
+    return res.send(resData);
+  }
+};
+
+export const SearchDestination = async (req: Request, res: Response) => {
+  try {
+    const { location, name } = req.query;
+
+    const destination = await Destination.find({
+      location: location
+        ? { $regex: new RegExp(location as string, "i") }
+        : /.*/,
+      name: name ? { $regex: new RegExp(name as string, "i") } : /.*/,
+    });
+    if (destination.length === 0) {
+      const paginate = new respPagination(0, 0, 0);
+      const responseObj = new ResponseObj(200, {}, paginate, "No Data");
+      return res.status(200).send(responseObj);
+    }
+    const paginate = new respPagination(0, 0, 0);
+    const responseObj = new ResponseObj(200, destination, paginate, "Data");
+    return res.status(200).send(responseObj);
   } catch (error) {
     let errorObject: object = {};
     if (error instanceof Error) errorObject = error;

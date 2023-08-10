@@ -692,17 +692,7 @@
       "get": {
         "summary": "Get unique cities",
         "tags": ["Destination"],
-        "parameters": [
-          {
-            "name": "location",
-            "in": "query",
-            "description": "Optional. Filter destinations by location.",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": "Success",
