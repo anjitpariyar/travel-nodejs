@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import Hotels from "../model/Hotels.modal";
 import ResponseObj from "./Response";
 import respPagination from "./respPagination";
+import Auth, { IAuth } from "../model/Auth.model";
+
 require("dotenv").config();
 
 export const getHotels = async (req: Request, res: Response) => {
@@ -31,6 +33,65 @@ export const getHotelsByID = async (req: Request, res: Response) => {
       return res.send(resData);
     } else {
       const responseObj = new ResponseObj(200, hotel, {}, "Data");
+      return res.send(responseObj);
+    }
+  } catch (error) {
+    console.log("error", error);
+    let errorObject: object = {};
+    if (error instanceof Error) errorObject = error;
+    let resData = new ResponseObj(
+      500,
+      errorObject,
+      {},
+      error?.data?.message ?? "Something went wrong"
+    );
+    return res.send(resData);
+  }
+};
+
+export const toggleHotelsByID = async (req: Request, res: Response) => {
+  //finding if profile exist
+  let profile = await Auth.findOne({ _id: req.user.id });
+
+  if (!profile) {
+    const respObject = new ResponseObj(404, {}, {}, "Profile not found");
+    return res.status(404).send(respObject);
+  }
+
+  try {
+    const hotel = await Hotels.findById(req.params.id);
+    if (hotel === null) {
+      let resData = new ResponseObj(200, {}, {}, "Empty data");
+      return res.send(resData);
+    } else {
+      // check if user have liked this or not
+      const liked: string[] = hotel.liked || [];
+
+      console.log("newHotel", liked);
+
+      if (liked.includes(req.user.id)) {
+        // remove from like here
+        var index = liked.indexOf(req.user.id);
+        if (index > -1) {
+          liked.splice(index, 1);
+        }
+      } else {
+        // add userid here
+        liked.push(req.user.id);
+      }
+      console.log("after", liked);
+
+      await Hotels.updateOne(
+        { _id: req.params.id },
+        { $set: { liked: liked } }
+      );
+
+      const responseObj = new ResponseObj(
+        200,
+        { message: "success" },
+        {},
+        "Data"
+      );
       return res.send(responseObj);
     }
   } catch (error) {

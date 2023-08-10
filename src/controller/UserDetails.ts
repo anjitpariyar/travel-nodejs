@@ -79,10 +79,7 @@ export const EditProfileTask = async (req: Request, res: Response) => {
 export const GetProfile = async (req: Request, res: Response) => {
   //finding if profile exist
   let profile = await Auth.findOne({ _id: req.user.id });
-  if (!profile) {
-    let respObject = new ResponseObj(404, {}, {}, "Profile not found");
-    return res.status(404).send(respObject);
-  }
+
   if (!profile) {
     const respObject = new ResponseObj(404, {}, {}, "Profile not found");
     return res.status(404).send(respObject);

@@ -24,6 +24,7 @@ export interface IHotel extends mongoose.Document {
   reviews: Review[];
   rate: number;
   gallery: string[];
+  liked: string[];
   url: string;
 }
 
@@ -66,6 +67,10 @@ const HotelSchema = new mongoose.Schema(
       required: true,
     },
     gallery: {
+      type: Array,
+      required: true,
+    },
+    liked: {
       type: Array,
       required: true,
     },

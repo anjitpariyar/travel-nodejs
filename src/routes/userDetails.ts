@@ -7,8 +7,6 @@ import {
 import auth from "../middleware/auth";
 import { check } from "express-validator";
 
-import multipart from "connect-multiparty";
-
 let router = Router();
 
 /**

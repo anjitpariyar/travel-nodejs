@@ -1,15 +1,25 @@
 import { Router } from "express";
-import { getHotels, getHotelsByID } from "../controller/Hotel";
+import {
+  getHotels,
+  getHotelsByID,
+  toggleHotelsByID,
+} from "../controller/Hotel";
+import auth from "../middleware/auth";
 
 let router = Router();
 
 /**
- * Post Comment
+ * Hotels
  */
 router.get("/", getHotels);
 
 /**
- * Delete comment
+ *Save / unSave Hotel
+ */
+router.put("/save/:id", auth, toggleHotelsByID);
+
+/**
+ * Hotels details
  */
 router.get("/:id", getHotelsByID);
 
