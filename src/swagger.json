@@ -757,6 +757,74 @@
         }
       }
     },
+    "/destinations/search": {
+      "get": {
+        "summary": "Search for destinations by location and name",
+        "tags": ["Destination"],
+        "parameters": [
+          {
+            "name": "location",
+            "in": "query",
+            "description": "Location to search for",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Name to search for",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 200,
+                  "data": [
+                    {
+                      "_id": "60fd13f06a3a914b7cd19f2a",
+                      "name": "Example Destination",
+                      "location": "Example Location",
+                      "description": "Example description",
+                      "createdAt": "2021-08-01T00:00:00.000Z",
+                      "updatedAt": "2021-08-01T00:00:00.000Z",
+                      "__v": 0
+                    }
+                  ],
+                  "meta": {
+                    "page": 0,
+                    "pageSize": 0,
+                    "totalItem": 0
+                  },
+                  "msg": "Data"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 500,
+                  "data": {},
+                  "meta": {},
+                  "msg": "Something went wrong"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/user": {
       "get": {
         "summary": "Get user profile",
