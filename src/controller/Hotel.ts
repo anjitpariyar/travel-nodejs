@@ -2,11 +2,41 @@ import { Request, Response } from "express";
 import Hotels from "../model/Hotels.modal";
 import ResponseObj from "./Response";
 import respPagination from "./respPagination";
-import Auth, { IAuth } from "../model/Auth.model";
+import Auth from "../model/Auth.model";
+import jwt from "jsonwebtoken";
 
 require("dotenv").config();
 
 export const getHotels = async (req: Request, res: Response) => {
+  const token = req?.header("x-auth-token");
+  let userId;
+
+  if (token) {
+    // decode
+    try {
+      await jwt.verify(
+        token,
+        process.env.mySecret!,
+        (error: any, decoded: any) => {
+          if (error) {
+            let respObject = new ResponseObj(
+              401,
+              {},
+              {},
+              "Token is not valid or is expired"
+            );
+            return res.status(401).send(respObject);
+          } else {
+            userId = decoded.user;
+          }
+        }
+      );
+    } catch (err) {
+      let respObject = new ResponseObj(500, {}, {}, "Server Error");
+      return res.status(500).send(respObject);
+    }
+  }
+
   try {
     const hotels = await Hotels.find();
     if (Hotels.length === 0) {
@@ -15,7 +45,23 @@ export const getHotels = async (req: Request, res: Response) => {
       return res.status(200).send(responseObj);
     }
     const paginate = new respPagination(0, 0, 0);
-    const responseObj = new ResponseObj(200, hotels, paginate, "Data");
+
+    console.log("userId", userId);
+
+    const hotelsWithIsLiked = hotels.map((hotel) => {
+      const isLiked = userId ? hotel.liked.includes(userId.id) : false;
+      return {
+        ...hotel.toObject(),
+        isLiked: isLiked,
+      };
+    });
+
+    const responseObj = new ResponseObj(
+      200,
+      hotelsWithIsLiked,
+      paginate,
+      "Data"
+    );
     return res.status(200).send(responseObj);
   } catch (error) {
     let errorObject: object = {};
@@ -91,8 +137,6 @@ export const toggleHotelsByID = async (req: Request, res: Response) => {
       // check if user have liked this or not
       const liked: string[] = hotel.liked || [];
 
-      console.log("newHotel", liked);
-
       if (liked.includes(req.user.id)) {
         // remove from like here
         var index = liked.indexOf(req.user.id);
@@ -103,7 +147,6 @@ export const toggleHotelsByID = async (req: Request, res: Response) => {
         // add userid here
         liked.push(req.user.id);
       }
-      console.log("after", liked);
 
       await Hotels.updateOne(
         { _id: req.params.id },

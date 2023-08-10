@@ -362,6 +362,122 @@
         }
       }
     },
+    "/save": {
+      "get": {
+        "tags": ["Hotel"],
+        "summary": "Get saved hotels",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 200,
+                  "data": [
+                    {
+                      "_id": "hotel_id_1",
+                      "pid": "12345",
+                      "name": "Hotel 1",
+                      "location": "Location 1",
+                      "price": "100",
+                      "about": "Description of Hotel 1",
+                      "service": [
+                        { "name": "Service 1", "svg": "svg_url_1" },
+                        { "name": "Service 2", "svg": "svg_url_2" }
+                      ],
+                      "food": ["Food 1", "Food 2"],
+                      "reviews": [
+                        { "name": "Reviewer 1", "text": "Review 1" },
+                        { "name": "Reviewer 2", "text": "Review 2" }
+                      ],
+                      "rate": 4.5,
+                      "gallery": ["image_url_1", "image_url_2"],
+                      "liked": ["user_id_1"],
+                      "url": "hotel_url_1"
+                    }
+                  ],
+                  "meta": {},
+                  "msg": "Data"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 500,
+                  "data": {},
+                  "meta": {},
+                  "msg": "Internal Server Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/save/{id}": {
+      "put": {
+        "tags": ["Hotel"],
+        "summary": "Toggle hotel like status",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the hotel to toggle like status"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 200,
+                  "data": { "message": "success" },
+                  "meta": {},
+                  "msg": "Data"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 404,
+                  "data": {},
+                  "meta": {},
+                  "msg": "Profile not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 500,
+                  "data": {},
+                  "meta": {},
+                  "msg": "Internal Server Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/category": {
       "get": {
         "summary": "get categories list",
