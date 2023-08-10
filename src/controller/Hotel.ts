@@ -49,6 +49,30 @@ export const getHotelsByID = async (req: Request, res: Response) => {
   }
 };
 
+export const getSavedHotels = async (req: Request, res: Response) => {
+  try {
+    const hotel = await Hotels.find({ liked: { $in: [req.user.id] } });
+    if (hotel === null) {
+      let resData = new ResponseObj(200, {}, {}, "Empty data");
+      return res.send(resData);
+    } else {
+      const responseObj = new ResponseObj(200, hotel, {}, "Data");
+      return res.send(responseObj);
+    }
+  } catch (error) {
+    console.log("error", error);
+    let errorObject: object = {};
+    if (error instanceof Error) errorObject = error;
+    let resData = new ResponseObj(
+      500,
+      errorObject,
+      {},
+      error?.data?.message ?? "Something went wrong"
+    );
+    return res.send(resData);
+  }
+};
+
 export const toggleHotelsByID = async (req: Request, res: Response) => {
   //finding if profile exist
   let profile = await Auth.findOne({ _id: req.user.id });
