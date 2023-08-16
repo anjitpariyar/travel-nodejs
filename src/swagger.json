@@ -362,11 +362,11 @@
         }
       }
     },
-    "/save": {
+    "/hotels/save": {
       "get": {
         "tags": ["Hotel"],
         "summary": "Get saved hotels",
-        "security": [{ "bearerAuth": [] }],
+        "security": [{ "xAuthToken": [] }],
         "responses": {
           "200": {
             "description": "Success",
@@ -419,11 +419,11 @@
         }
       }
     },
-    "/save/{id}": {
+    "/hotels/save/{id}": {
       "put": {
         "tags": ["Hotel"],
         "summary": "Toggle hotel like status",
-        "security": [{ "bearerAuth": [] }],
+        "security": [{ "xAuthToken": [] }],
         "parameters": [
           {
             "name": "id",

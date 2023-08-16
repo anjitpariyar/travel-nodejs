@@ -128,6 +128,10 @@ export const toggleHotelsByID = async (req: Request, res: Response) => {
 
   try {
     const hotel = await Hotels.findById(req.params.id);
+    if (!hotel) {
+      const respObject = new ResponseObj(404, {}, {}, "Hotel not found");
+      return res.status(404).send(respObject);
+    }
     if (hotel === null) {
       let resData = new ResponseObj(200, {}, {}, "Empty data");
       return res.send(resData);

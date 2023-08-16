@@ -30,18 +30,6 @@ export interface IAuth extends mongoose.Document {
   bio?: string;
 }
 
-// Define the sub-schemas for IInterest and IVisitedLocation
-const interestSchema = new Schema({
-  id: { type: String, required: true },
-  name: { type: String, required: true },
-});
-
-const visitedLocationSchema = new Schema({
-  id: { type: String, required: true },
-  gallery: { type: String, required: true },
-  name: { type: String, required: true },
-});
-
 const AuthSchema = new mongoose.Schema(
   {
     email: {
