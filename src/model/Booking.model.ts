@@ -18,11 +18,16 @@ export interface IBooking extends mongoose.Document {
   status: "request" | "booked" | "expired" | "cancel" | "canceled";
   type: "hotel" | "destination";
   isRead: boolean;
+  uid: string;
 }
 
 const BookingSchema = new mongoose.Schema(
   {
     hid: {
+      type: String,
+      required: true,
+    },
+    uid: {
       type: String,
       required: true,
     },

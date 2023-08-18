@@ -17,7 +17,7 @@ export interface IVisitedLocation {
 export interface IAuth extends mongoose.Document {
   email: string;
   password: string;
-  role: string;
+  role: number;
   avatarUrl?: string;
   fullName: string;
   gender?: string;

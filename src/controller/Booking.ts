@@ -1,11 +1,10 @@
-import Auth, { IAuth, IInterest, IVisitedLocation } from "../model/Auth.model";
-import Category from "../model/Category.model";
+import Auth from "../model/Auth.model";
 import Hotels from "../model/Hotels.modal";
-import Destination from "../model/Destination.modal";
 import Booking from "../model/Booking.model";
 import ResponseObj from "./Response";
 import { Response, Request } from "express";
 import { validationResult } from "express-validator";
+const dayjs = require("dayjs");
 
 const mongoose = require("mongoose");
 
@@ -64,6 +63,7 @@ export const PostBooking = async (req: Request, res: Response) => {
       newBooking.roomType = roomType;
       newBooking.contact = contact;
       newBooking.isRead = false;
+      newBooking.uid = userId;
       await newBooking.save();
       let resObj = {
         message: "success",
@@ -72,7 +72,7 @@ export const PostBooking = async (req: Request, res: Response) => {
         200,
         resObj,
         {},
-        "account created successfully"
+        "booking requested successfully"
       );
       return res.send(resData);
     } catch (error) {
@@ -100,54 +100,51 @@ export const GetBooking = async (req: Request, res: Response) => {
   let profile = await Auth.findOne({ _id: req.user.id });
 
   if (!profile) {
-    const respObject = new ResponseObj(404, {}, {}, "Profile not found");
+    const respObject = new ResponseObj(404, {}, {}, "booking not found");
     return res.status(404).send(respObject);
   }
 
-  // Convert booked object IDs to strings
-  if (profile.booked && profile.booked.length > 0) {
-    const bookedDetails = await Hotels.find({
-      _id: { $in: profile.booked.map((id) => mongoose.Types.ObjectId(id)) },
-    }).select("name gallery");
+  // for normal user
+  if (profile.role === 1) {
+    let bookedHotels = await Booking.find({ uid: req.user.id });
+    // Prepare an array to store the combined data
+    const combinedData = [];
+    if (bookedHotels.length === 0) {
+      let respObject = new ResponseObj(400, {}, {}, "no data");
+      res.send(respObject);
+    } else {
+      // Iterate through each booked hotel
+      for (const booking of bookedHotels) {
+        const { hid } = booking;
 
-    const bookedIds: IVisitedLocation[] = bookedDetails.map((detail) => ({
-      id: detail._id.toString(),
-      name: detail.name,
-      gallery: detail.gallery,
-    }));
-    profile.booked = bookedIds;
+        // Fetch hotel data from Hotels collection based on hid
+        const hotel = await Hotels.findOne({ _id: hid });
+
+        // If hotel data is found, combine the booking and hotel data
+        if (hotel) {
+          combinedData.push({
+            booking: {
+              ...booking.toObject(),
+              isExpired: dayjs(booking.endDate).isBefore(dayjs()),
+            },
+            hotel: {
+              id: hotel.id,
+              name: hotel.name,
+              gallery: hotel.gallery,
+              about: hotel.about,
+              rate: hotel.rate,
+              price: hotel.price,
+            },
+          });
+        }
+      }
+    }
+
+    let respObject = new ResponseObj(200, combinedData, {}, "Booking found");
+    return res.status(200).send(respObject);
   }
 
-  // Convert interest object IDs to strings
-  if (profile.interest && profile.interest.length > 0) {
-    const interestDetails = await Category.find({
-      _id: { $in: profile.interest.map((id) => mongoose.Types.ObjectId(id)) },
-    }).select("name");
-
-    const interestIds: IInterest[] = interestDetails.map((detail) => ({
-      id: detail._id.toString(),
-      name: detail.name,
-    }));
-    profile.interest = interestIds;
-  }
-
-  // Convert interest object IDs to strings
-  if (profile.visitedLocation && profile.visitedLocation.length > 0) {
-    const visitedLocationDetails = await Destination.find({
-      _id: {
-        $in: profile.visitedLocation.map((id) => mongoose.Types.ObjectId(id)),
-      },
-    }).select("name");
-
-    const visitedLocationIds: IVisitedLocation[] = visitedLocationDetails.map(
-      (detail) => ({
-        id: detail._id.toString(),
-        name: detail.name,
-        gallery: detail.gallery,
-      })
-    );
-    profile.visitedLocation = visitedLocationIds;
-  }
+  // find hotels booking
 
   // Omit sensitive fields and send the response
   const sanitizedProfile = {
@@ -156,6 +153,6 @@ export const GetBooking = async (req: Request, res: Response) => {
     password: undefined,
   };
 
-  let respObject = new ResponseObj(200, sanitizedProfile, {}, "Profile found");
+  let respObject = new ResponseObj(200, sanitizedProfile, {}, "Booking found");
   return res.status(200).send(respObject);
 };
