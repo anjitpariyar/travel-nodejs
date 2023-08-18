@@ -2,12 +2,14 @@ import Auth, { IAuth, IInterest, IVisitedLocation } from "../model/Auth.model";
 import Category from "../model/Category.model";
 import Hotels from "../model/Hotels.modal";
 import Destination from "../model/Destination.modal";
+import Booking from "../model/Booking.model";
 import ResponseObj from "./Response";
 import { Response, Request } from "express";
 import { validationResult } from "express-validator";
 
 const mongoose = require("mongoose");
 
+// this is design for hotel only
 export const PostBooking = async (req: Request, res: Response) => {
   let {
     status,
@@ -36,7 +38,7 @@ export const PostBooking = async (req: Request, res: Response) => {
     return res.status(400).send(respObject);
   }
 
-  // tokem validation
+  // token validation
   let profile = await Auth.findOne({ _id: userId });
 
   if (!profile) {
@@ -47,11 +49,32 @@ export const PostBooking = async (req: Request, res: Response) => {
   if (status === "request") {
     // check if hotel exists or not
     try {
-      if (type === "hotel") {
-        await Hotels.findById(hotelId);
-      } else {
-        await Hotels.findById(hotelId);
-      }
+      await Hotels.findById(hotelId);
+      // create new booking
+      let newBooking = new Booking();
+      newBooking.hid = hotelId;
+      newBooking.startDate = startDate;
+      newBooking.paymentMethod = paymentMethod;
+      newBooking.payment = payment;
+      newBooking.fullName = fullName;
+      newBooking.email = email;
+      newBooking.endDate = endDate;
+      newBooking.status = status;
+      newBooking.type = type;
+      newBooking.roomType = roomType;
+      newBooking.contact = contact;
+      newBooking.isRead = false;
+      await newBooking.save();
+      let resObj = {
+        message: "success",
+      };
+      let resData = new ResponseObj(
+        200,
+        resObj,
+        {},
+        "account created successfully"
+      );
+      return res.send(resData);
     } catch (error) {
       let errorObject: object = {};
       if (error instanceof Error) errorObject = error;
