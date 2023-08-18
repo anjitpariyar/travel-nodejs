@@ -5,8 +5,8 @@ import mongoose from "mongoose";
  */
 
 export interface IBooking extends mongoose.Document {
-  pid: string;
-  date: Date;
+  hid: string;
+  startDate: Date;
   paymentMethod: "online" | "cod";
   payment?: number;
   // user
@@ -14,16 +14,19 @@ export interface IBooking extends mongoose.Document {
   contact: number;
   email: string;
   roomType: string;
-  days: "";
+  endDate: Date;
+  status: "request" | "booked" | "expired" | "cancel" | "canceled";
+  type: "hotel" | "destination";
+  isRead: boolean;
 }
 
 const BookingSchema = new mongoose.Schema(
   {
-    pid: {
+    hid: {
       type: String,
       required: true,
     },
-    date: {
+    startDate: {
       type: Date,
       required: true,
     },
@@ -51,9 +54,23 @@ const BookingSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    days: {
-      type: String,
+    endDate: {
+      type: Date,
       required: true,
+    },
+    status: {
+      type: String,
+      enum: ["request", "booked", "expired", "canceling", "canceled"],
+      required: true,
+    },
+    type: {
+      type: String,
+      enum: ["hotel", "destination"],
+      required: true,
+    },
+    isRead: {
+      type: Boolean,
+      required: false,
     },
   },
   { timestamps: true }

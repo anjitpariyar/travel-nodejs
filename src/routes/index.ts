@@ -4,6 +4,7 @@ import hotelRoutes from "./hotelRoutes";
 import Category from "./Category";
 import Destination from "./destination";
 import UserDetails from "./userDetails";
+import Booking from "./Booking";
 
 const router = Router();
 // testing
@@ -20,6 +21,11 @@ router.use("/auth", authRoutes);
  * hotels routes
  */
 router.use("/hotels", hotelRoutes);
+
+/**
+ * booking routes
+ */
+router.use("/booking", Booking);
 
 // category
 router.use("/category", Category);
