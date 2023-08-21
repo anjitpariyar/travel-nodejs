@@ -41,7 +41,7 @@ export const RegisterTask = async (req: Request, res: Response) => {
    */
   let newUser = new Auth();
   newUser.email = email;
-  newUser.role = role;
+  newUser.role = 1;
   newUser.fullName = fullName;
   newUser.avatarUrl = gravatar.url(email, {
     s: "56",

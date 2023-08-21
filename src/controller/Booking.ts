@@ -146,3 +146,90 @@ export const GetBooking = async (req: Request, res: Response) => {
   let respObject = new ResponseObj(200, combinedData, {}, "Booking found");
   return res.status(200).send(respObject);
 };
+
+export const UpdatingBooking = async (req: Request, res: Response) => {
+  let { status } = req.body;
+  const bookingId = req.params.id;
+  const userId = req.user.id;
+
+  //Checking validations
+  let errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    let respObject = new ResponseObj(
+      400,
+      errors,
+      {},
+      "Validations error occurred"
+    );
+    return res.status(400).send(respObject);
+  }
+
+  // token validation
+  let profile = await Auth.findOne({ _id: userId });
+
+  if (!profile) {
+    const respObject = new ResponseObj(404, {}, {}, "Profile not found");
+    return res.status(404).send(respObject);
+  }
+
+  // allow for cancelling
+  if (profile.role == 1 && status === "canceling") {
+    // check if hotel exists or not
+    try {
+      const updatedBooking = await Booking.findByIdAndUpdate(
+        bookingId,
+        { status: status },
+        { new: true } // This option returns the updated document
+      );
+      let resData = new ResponseObj(
+        200,
+        updatedBooking,
+        {},
+        `booking updated to ${status} successfully`
+      );
+      return res.send(resData);
+    } catch (error) {
+      let errorObject: object = {};
+      if (error instanceof Error) errorObject = error;
+      let resData = new ResponseObj(
+        500,
+        errorObject,
+        {},
+        error?.data?.message ?? "Something went wrong"
+      );
+      return res.send(resData);
+    }
+  } else if (
+    profile.role == 2 &&
+    (status === "booked" || status === "canceled")
+  ) {
+    // check if hotel exists or not
+    try {
+      const updatedBooking = await Booking.findByIdAndUpdate(
+        bookingId,
+        { status: status },
+        { new: true } // This option returns the updated document
+      );
+      let resData = new ResponseObj(
+        200,
+        updatedBooking,
+        {},
+        `booking updated to ${status} successfully`
+      );
+      return res.send(resData);
+    } catch (error) {
+      let errorObject: object = {};
+      if (error instanceof Error) errorObject = error;
+      let resData = new ResponseObj(
+        500,
+        errorObject,
+        {},
+        error?.data?.message ?? "Something went wrong"
+      );
+      return res.send(resData);
+    }
+  }
+
+  let respObject = new ResponseObj(200, {}, {}, "permission denied");
+  return res.status(400).send(respObject);
+};

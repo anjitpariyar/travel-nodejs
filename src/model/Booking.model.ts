@@ -15,7 +15,7 @@ export interface IBooking extends mongoose.Document {
   email: string;
   roomType: string;
   endDate: Date;
-  status: "request" | "booked" | "expired" | "cancel" | "canceled";
+  status: "request" | "booked" | "cancel" | "canceled";
   type: "hotel" | "destination";
   isRead: boolean;
   uid: string;
@@ -65,7 +65,7 @@ const BookingSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["request", "booked", "expired", "canceling", "canceled"],
+      enum: ["request", "booked", "canceling", "canceled"],
       required: true,
     },
     type: {
