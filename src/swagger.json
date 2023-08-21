@@ -930,11 +930,7 @@
       "put": {
         "summary": "Update user password",
         "tags": ["user"],
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
+        "security": [{ "xAuthToken": [] }],
         "requestBody": {
           "description": "New password",
           "required": true,
@@ -1010,6 +1006,95 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/bookings": {
+      "get": {
+        "tags": ["Booking"],
+        "summary": "Get bookings",
+        "security": [{ "xAuthToken": [] }],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/BookingResponse"
+              }
+            }
+          },
+          "404": {
+            "description": "Profile not found"
+          }
+        }
+      }
+    },
+    "/bookings/{id}": {
+      "post": {
+        "tags": ["Booking"],
+        "summary": "Create a booking",
+        "security": [{ "xAuthToken": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Hotel ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "$ref": "#/components/schemas/SuccessResponse"
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "schema": {
+              "type": "object",
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "Profile not found"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Booking"],
+        "summary": "Update a booking",
+        "security": [{ "xAuthToken": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Booking ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "$ref": "#/components/schemas/SuccessResponse"
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "schema": {
+              "type": "object",
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "Profile not found"
           }
         }
       }
@@ -1246,6 +1331,104 @@
             "items": {
               "type": "string"
             }
+          }
+        }
+      },
+      "BookingResponse": {
+        "type": "object",
+        "properties": {
+          "booking": {
+            "$ref": "#/components/schemas/Booking"
+          },
+          "hotel": {
+            "$ref": "#/components/schemas/Hotel"
+          }
+        }
+      },
+      "Booking": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "hid": {
+            "type": "string"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "paymentMethod": {
+            "type": "string",
+            "enum": ["online", "cod"]
+          },
+          "payment": {
+            "type": "number"
+          },
+          "fullName": {
+            "type": "string"
+          },
+          "contact": {
+            "type": "number"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "roomType": {
+            "type": "string"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["request", "booked", "cancel", "canceled"]
+          },
+          "type": {
+            "type": "string",
+            "enum": ["hotel", "destination"]
+          },
+          "isRead": {
+            "type": "boolean"
+          },
+          "roomNumber": {
+            "type": "number"
+          }
+        }
+      },
+      "Hotel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "gallery": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "about": {
+            "type": "string"
+          },
+          "rate": {
+            "type": "number"
+          },
+          "price": {
+            "type": "string"
+          }
+        }
+      },
+      "SuccessResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
           }
         }
       },
