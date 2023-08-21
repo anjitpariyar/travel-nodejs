@@ -6,8 +6,6 @@ import { Response, Request } from "express";
 import { validationResult } from "express-validator";
 const dayjs = require("dayjs");
 
-const mongoose = require("mongoose");
-
 // this is design for hotel only
 export const PostBooking = async (req: Request, res: Response) => {
   let {
@@ -104,55 +102,47 @@ export const GetBooking = async (req: Request, res: Response) => {
     return res.status(404).send(respObject);
   }
 
-  // for normal user
+  let query: { uid?: string } = {};
   if (profile.role === 1) {
-    let bookedHotels = await Booking.find({ uid: req.user.id });
-    // Prepare an array to store the combined data
-    const combinedData = [];
-    if (bookedHotels.length === 0) {
-      let respObject = new ResponseObj(400, {}, {}, "no data");
-      res.send(respObject);
-    } else {
-      // Iterate through each booked hotel
-      for (const booking of bookedHotels) {
-        const { hid } = booking;
-
-        // Fetch hotel data from Hotels collection based on hid
-        const hotel = await Hotels.findOne({ _id: hid });
-
-        // If hotel data is found, combine the booking and hotel data
-        if (hotel) {
-          combinedData.push({
-            booking: {
-              ...booking.toObject(),
-              isExpired: dayjs(booking.endDate).isBefore(dayjs()),
-            },
-            hotel: {
-              id: hotel.id,
-              name: hotel.name,
-              gallery: hotel.gallery,
-              about: hotel.about,
-              rate: hotel.rate,
-              price: hotel.price,
-            },
-          });
-        }
-      }
-    }
-
-    let respObject = new ResponseObj(200, combinedData, {}, "Booking found");
-    return res.status(200).send(respObject);
+    query.uid = req.user.id;
   }
 
-  // find hotels booking
+  // for normal user
 
-  // Omit sensitive fields and send the response
-  const sanitizedProfile = {
-    ...profile.toObject(),
-    _id: undefined,
-    password: undefined,
-  };
+  let bookedHotels = await Booking.find(query);
+  // Prepare an array to store the combined data
+  const combinedData = [];
+  if (bookedHotels.length === 0) {
+    let respObject = new ResponseObj(400, {}, {}, "no data");
+    res.send(respObject);
+  } else {
+    // Iterate through each booked hotel
+    for (const booking of bookedHotels) {
+      const { hid } = booking;
 
-  let respObject = new ResponseObj(200, sanitizedProfile, {}, "Booking found");
+      // Fetch hotel data from Hotels collection based on hid
+      const hotel = await Hotels.findOne({ _id: hid });
+
+      // If hotel data is found, combine the booking and hotel data
+      if (hotel) {
+        combinedData.push({
+          booking: {
+            ...booking.toObject(),
+            isExpired: dayjs(booking.endDate).isBefore(dayjs()),
+          },
+          hotel: {
+            id: hotel.id,
+            name: hotel.name,
+            gallery: hotel.gallery,
+            about: hotel.about,
+            rate: hotel.rate,
+            price: hotel.price,
+          },
+        });
+      }
+    }
+  }
+
+  let respObject = new ResponseObj(200, combinedData, {}, "Booking found");
   return res.status(200).send(respObject);
 };
