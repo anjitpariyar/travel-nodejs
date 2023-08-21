@@ -1,5 +1,9 @@
 import { Router } from "express";
-import { GetBooking, PostBooking } from "../controller/Booking";
+import {
+  GetBooking,
+  PostBooking,
+  UpdatingBooking,
+} from "../controller/Booking";
 import auth from "../middleware/auth";
 import { check } from "express-validator";
 
@@ -12,7 +16,7 @@ router.get("/", auth, GetBooking);
 /**
  *
  */
-router.put(
+router.post(
   "/:id",
   auth,
   [
@@ -44,6 +48,27 @@ router.put(
       .withMessage("Invalid type"),
   ],
   PostBooking
+);
+
+router.put(
+  "/:id",
+  auth,
+  [
+    check("payment")
+      .optional()
+      .isNumeric()
+      .withMessage("Payment must be a number"),
+    check("roomNumber")
+      .optional()
+      .isNumeric()
+      .withMessage("roomNumber is required"),
+    check("status")
+      .notEmpty()
+      .withMessage("Status is required")
+      .isIn(["booked", "cancel", "canceled"])
+      .withMessage("Invalid status"),
+  ],
+  UpdatingBooking
 );
 
 export default router;

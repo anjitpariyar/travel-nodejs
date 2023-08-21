@@ -86,8 +86,8 @@ export const PostBooking = async (req: Request, res: Response) => {
     }
   }
 
-  let respObject = new ResponseObj(200, {}, {}, "testing");
-  return res.status(200).send(respObject);
+  let respObject = new ResponseObj(400, {}, {}, "permission denied");
+  return res.status(400).send(respObject);
 };
 
 /**
@@ -148,7 +148,7 @@ export const GetBooking = async (req: Request, res: Response) => {
 };
 
 export const UpdatingBooking = async (req: Request, res: Response) => {
-  let { status } = req.body;
+  let { status, payment, roomNumber } = req.body;
   const bookingId = req.params.id;
   const userId = req.user.id;
 
@@ -173,7 +173,7 @@ export const UpdatingBooking = async (req: Request, res: Response) => {
   }
 
   // allow for cancelling
-  if (profile.role == 1 && status === "canceling") {
+  if (profile.role == 1 && status === "cancel") {
     // check if hotel exists or not
     try {
       const updatedBooking = await Booking.findByIdAndUpdate(
@@ -204,10 +204,21 @@ export const UpdatingBooking = async (req: Request, res: Response) => {
     (status === "booked" || status === "canceled")
   ) {
     // check if hotel exists or not
+    let query: any = {
+      status: status,
+    };
+
+    if (payment) {
+      query.payment = payment;
+    }
+    if (roomNumber) {
+      query.roomNumber = roomNumber;
+    }
+
     try {
       const updatedBooking = await Booking.findByIdAndUpdate(
         bookingId,
-        { status: status },
+        query,
         { new: true } // This option returns the updated document
       );
       let resData = new ResponseObj(

@@ -19,6 +19,7 @@ export interface IBooking extends mongoose.Document {
   type: "hotel" | "destination";
   isRead: boolean;
   uid: string;
+  roomNumber?: number;
 }
 
 const BookingSchema = new mongoose.Schema(
@@ -59,13 +60,17 @@ const BookingSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    roomNumber: {
+      type: Number,
+      required: false,
+    },
     endDate: {
       type: Date,
       required: true,
     },
     status: {
       type: String,
-      enum: ["request", "booked", "canceling", "canceled"],
+      enum: ["request", "booked", "cancel", "canceled"],
       required: true,
     },
     type: {
