@@ -137,6 +137,7 @@ export const GetBooking = async (req: Request, res: Response) => {
             about: hotel.about,
             rate: hotel.rate,
             price: hotel.price,
+            url: hotel.url,
           },
         });
       }
