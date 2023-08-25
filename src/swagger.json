@@ -1010,7 +1010,7 @@
         }
       }
     },
-    "/bookings": {
+    "/booking": {
       "get": {
         "tags": ["Booking"],
         "summary": "Get bookings",
@@ -1018,11 +1018,12 @@
         "responses": {
           "200": {
             "description": "Success",
-            "schema": {
-              "type": "array",
-              "items": {
+            "content": {
+              "application/json": {
+              "schema": {
                 "$ref": "#/components/schemas/BookingResponse"
               }
+            }
             }
           },
           "404": {
@@ -1031,7 +1032,7 @@
         }
       }
     },
-    "/bookings/{id}": {
+    "/booking/{id}": {
       "post": {
         "tags": ["Booking"],
         "summary": "Create a booking",
@@ -1048,10 +1049,13 @@
         "responses": {
           "200": {
             "description": "Success",
+            "content": {
+              "application/json": {
             "schema": {
-              "type": "object",
               "$ref": "#/components/schemas/SuccessResponse"
             }
+          }
+        }
           },
           "400": {
             "description": "Validation error",
@@ -1081,10 +1085,13 @@
         "responses": {
           "200": {
             "description": "Success",
+            "content": {
+              "application/json": {
             "schema": {
-              "type": "object",
               "$ref": "#/components/schemas/SuccessResponse"
             }
+          }
+        }
           },
           "400": {
             "description": "Validation error",
@@ -1102,23 +1109,6 @@
   },
   "components": {
     "schemas": {
-      "ExampleSchemaBody": {
-        "properties": {
-          "responseText": {
-            "type": "string",
-            "example": "This is some example string! This is an endpoint"
-          }
-        }
-      },
-      "ExampleSchemaHeader": {
-        "required": ["text"],
-        "properties": {
-          "text": {
-            "type": "string",
-            "example": "This is some example string!"
-          }
-        }
-      },
       "Destination": {
         "type": "object",
         "properties": {
