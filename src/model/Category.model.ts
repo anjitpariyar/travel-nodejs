@@ -9,7 +9,6 @@ export interface ICategory {
   name: string;
   backgroundImage: string;
   about: string;
-  destination: string[];
 }
 
 const CategoryScheme = new mongoose.Schema(
@@ -28,10 +27,6 @@ const CategoryScheme = new mongoose.Schema(
     },
     about: {
       type: String,
-      required: true,
-    },
-    destination: {
-      type: Array,
       required: true,
     },
   },

@@ -43,6 +43,7 @@
     "/auth": {
       "post": {
         "summary": "for registration",
+        "description": "you can create three type of users, role  0  = admin, role 1 = regular user and 2 for the hotels/destination owner",
         "tags": ["Auth"],
         "produces": ["application/json"],
         "requestBody": {
@@ -66,6 +67,7 @@
                   },
                   "role": {
                     "type": "number",
+                    "enum": [0, 1, 2],
                     "example": 1
                   }
                 }
@@ -191,6 +193,7 @@
         "summary": "get Hotel list",
         "tags": ["Hotel"],
         "produces": ["application/json"],
+        "description": "authorization is optional here. if you send  x-auth-token, you receive (isLiked : true) if user have save the ",
         "responses": {
           "200": {
             "description": "OK",
@@ -288,6 +291,7 @@
     "/hotels/{id}": {
       "get": {
         "summary": "Get a hotel by ID",
+        "description": "you can get uniq hotel id from above [/hotels] API",
         "parameters": [
           {
             "name": "id",
@@ -367,6 +371,7 @@
         "tags": ["Hotel"],
         "summary": "Get saved hotels",
         "security": [{ "xAuthToken": [] }],
+        "description": "This sends the hotels that user has saved. therefore you need authentication to access this",
         "responses": {
           "200": {
             "description": "Success",
@@ -424,6 +429,7 @@
         "tags": ["Hotel"],
         "summary": "Toggle hotel like status",
         "security": [{ "xAuthToken": [] }],
+        "description": "you can get uniq hotel id from above [/hotels] API. \n this API works for both save and unsave. \n This API check if id is already saved or not. if its not then it save but if its saved already then it remove from save",
         "parameters": [
           {
             "name": "id",
@@ -481,6 +487,7 @@
     "/category": {
       "get": {
         "summary": "get categories list",
+        "description": "This category is for the destination only",
         "tags": ["Category"],
         "produces": ["application/json"],
         "responses": {
@@ -530,6 +537,7 @@
     "/category/{id}": {
       "get": {
         "summary": "get categories list",
+        "description": "You can get category ID from [/category] API",
         "tags": ["Category"],
         "parameters": [
           {
@@ -566,13 +574,6 @@
                     "about": {
                       "type": "string",
                       "description": "A description or information about the item."
-                    },
-                    "destination": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      },
-                      "description": "An array of destination names associated with the item."
                     }
                   }
                 }
@@ -591,7 +592,7 @@
           {
             "name": "categoryId",
             "in": "query",
-            "description": "Filter destinations by location ID",
+            "description": "This is optional. If you send categoryId (You can get category ID from [/category] API), you get destination only that are in the category. ",
             "required": false,
             "schema": {
               "type": "string"
@@ -641,6 +642,7 @@
     "/destinations/{id}": {
       "get": {
         "summary": "Get a specific destination by ID",
+        "description": "you can get destination ID from [/destinations] API",
         "tags": ["Destination"],
         "produces": ["application/json"],
         "parameters": [
@@ -692,6 +694,7 @@
       "get": {
         "summary": "Get unique cities",
         "tags": ["Destination"],
+        "description": "This gives the uniq cities that are mentioned in the destinations",
         "parameters": [],
         "responses": {
           "200": {
@@ -760,6 +763,8 @@
     "/destinations/search": {
       "get": {
         "summary": "Search for destinations by location and name",
+        "description": "you can filter destination by both location and the name of destinations. you can get cities name  from [/destinations/cities] API. it search only one cities at a time. you cant send multiple cities name.",
+
         "tags": ["Destination"],
         "parameters": [
           {
@@ -854,13 +859,21 @@
             "description": "Profile not found"
           },
           "500": {
-            "description": "Server Error"
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
           }
         }
       },
       "put": {
         "summary": "Update user profile",
         "tags": ["user"],
+        "description": "send only those values that needs to update. you don't have to all values",
         "security": [
           {
             "xAuthToken": []
@@ -919,6 +932,16 @@
                   "error": {},
                   "meta": {},
                   "msg": "Profile Update Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -1013,17 +1036,18 @@
     "/booking": {
       "get": {
         "tags": ["Booking"],
-        "summary": "Get bookings",
+        "summary": "Get bookings [for both user and hotel user]",
         "security": [{ "xAuthToken": [] }],
+        "description": "For user you get the booked done by you only. And for hotel user you get every list of bookings.",
         "responses": {
           "200": {
             "description": "Success",
             "content": {
               "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/BookingResponse"
+                "schema": {
+                  "$ref": "#/components/schemas/BookingResponse"
+                }
               }
-            }
             }
           },
           "404": {
@@ -1035,8 +1059,9 @@
     "/booking/{id}": {
       "post": {
         "tags": ["Booking"],
-        "summary": "Create a booking",
+        "summary": "Create a booking [only for user]",
         "security": [{ "xAuthToken": [] }],
+        "description": " there are some enum values , for paymentMethod:[online,cod] cod means cash on delivery, status has to be request always and type has to be hotel always. destination booking hasn't yet supported.",
         "parameters": [
           {
             "name": "id",
@@ -1046,16 +1071,26 @@
             "description": "Hotel ID"
           }
         ],
+        "requestBody": {
+          "description": "Booking data",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BookingInput"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Success",
             "content": {
               "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/SuccessResponse"
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
             }
-          }
-        }
           },
           "400": {
             "description": "Validation error",
@@ -1071,8 +1106,9 @@
       },
       "put": {
         "tags": ["Booking"],
-        "summary": "Update a booking",
+        "summary": "Update a booking [for both user. But there are some restrictions, read the description.]",
         "security": [{ "xAuthToken": [] }],
+        "description": "Here ID is booking ID not hotel ID. For regular user you can only send cancel in status. reason once user get booked they can request cancel and its on hotel user hand to cancel it. For regular user they can send [booked and canceled] status. the logic is request => booked and cancel => canceled.",
         "parameters": [
           {
             "name": "id",
@@ -1082,16 +1118,26 @@
             "description": "Booking ID"
           }
         ],
+        "requestBody": {
+          "description": "Booking data",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BookingInput"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Success",
             "content": {
               "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/SuccessResponse"
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
             }
-          }
-        }
           },
           "400": {
             "description": "Validation error",
@@ -1244,18 +1290,6 @@
             "items": {
               "$ref": "#/components/schemas/VisitedLocation"
             }
-          },
-          "liked": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/VisitedLocation"
-            }
-          },
-          "booked": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/VisitedLocation"
-            }
           }
         }
       },
@@ -1311,12 +1345,6 @@
             }
           },
           "visitedLocation": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "booked": {
             "type": "array",
             "items": {
               "type": "string"
@@ -1387,6 +1415,78 @@
             "type": "number"
           }
         }
+      },
+      "BookingInput": {
+        "type": "object",
+        "properties": {
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "paymentMethod": {
+            "type": "string",
+            "enum": ["online", "cod"]
+          },
+          "payment": {
+            "type": "number"
+          },
+          "fullName": {
+            "type": "string"
+          },
+          "contact": {
+            "type": "number"
+          },
+          "email": {
+            "type": "string"
+          },
+          "roomType": {
+            "type": "string"
+          },
+          "roomNumber": {
+            "type": "number"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["request", "booked", "cancel", "canceled"]
+          },
+          "type": {
+            "type": "string",
+            "enum": ["hotel", "destination"]
+          }
+        },
+        "required": [
+          "startDate",
+          "paymentMethod",
+          "fullName",
+          "contact",
+          "email",
+          "roomType",
+          "endDate",
+          "status",
+          "type"
+        ],
+        "additionalProperties": false
+      },
+      "BookingUpdate": {
+        "type": "object",
+        "properties": {
+          "payment": {
+            "type": "number"
+          },
+          "roomNumber": {
+            "type": "number"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["booked", "cancel", "canceled"]
+          }
+        },
+        "required": ["roomNumber", "status", "payment"],
+        "additionalProperties": false
       },
       "Hotel": {
         "type": "object",
