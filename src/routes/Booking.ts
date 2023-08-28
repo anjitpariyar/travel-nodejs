@@ -13,6 +13,7 @@ let router = Router();
  * Hotels
  */
 router.get("/", auth, GetBooking);
+
 /**
  *
  */

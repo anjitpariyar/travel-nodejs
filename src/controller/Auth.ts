@@ -41,7 +41,7 @@ export const RegisterTask = async (req: Request, res: Response) => {
    */
   let newUser = new Auth();
   newUser.email = email;
-  newUser.role = 1;
+  newUser.role = role;
   newUser.fullName = fullName;
   newUser.avatarUrl = gravatar.url(email, {
     s: "56",
@@ -130,7 +130,7 @@ export const LoginTask = async (req: Request, res: Response) => {
     let access_token = jwt.sign(
       { user: { id: findUser._id } },
       process.env.mySecret!,
-      { expiresIn: 3600000 }
+      { expiresIn: 60 * 60 * 24 * 1000 }
     );
 
     // console.log("access token: ", access_token);
@@ -156,4 +156,17 @@ export const LoginTask = async (req: Request, res: Response) => {
     let responseObj = new ResponseObj(500, errorObject, {}, "Server Error");
     return res.status(500).send(responseObj);
   }
+};
+
+export const LogoutTask = async (req: Request, res: Response) => {
+  //finding if profile exist
+  let profile = await Auth.findOne({ _id: req.user.id });
+
+  if (!profile) {
+    const respObject = new ResponseObj(404, {}, {}, "booking not found");
+    return res.status(404).send(respObject);
+  }
+
+  let respObject = new ResponseObj(200, {}, {}, "Logout Successful");
+  return res.status(200).send(respObject);
 };

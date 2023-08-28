@@ -118,6 +118,7 @@
         "summary": "for login",
         "tags": ["Auth"],
         "produces": ["application/json"],
+        "description": "token valid for a day",
         "requestBody": {
           "required": true,
           "content": {
@@ -184,6 +185,59 @@
           },
           "500": {
             "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "Logout user",
+        "description": "Logs out the authenticated user.",
+        "security": [
+          {
+            "xAuthToken": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful logout",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 200,
+                  "data": {},
+                  "meta": {},
+                  "msg": "Logout Successful"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 401,
+                  "data": {},
+                  "meta": {},
+                  "msg": "Unauthorized"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 500,
+                  "data": {},
+                  "meta": {},
+                  "msg": "Server Error"
+                }
+              }
+            }
           }
         }
       }
@@ -1108,7 +1162,7 @@
         "tags": ["Booking"],
         "summary": "Update a booking [for both user. But there are some restrictions, read the description.]",
         "security": [{ "xAuthToken": [] }],
-        "description": "Here ID is booking ID not hotel ID. For regular user you can only send cancel in status. reason once user get booked they can request cancel and its on hotel user hand to cancel it. For regular user they can send [booked and canceled] status. the logic is request => booked and cancel => canceled.",
+        "description": "Here ID is booking ID not hotel ID. For regular user you can only send cancel in status. reason once user get booked they can request cancel and its on hotel user hand to cancel it. For Hotel user they can send [booked and canceled] status. the logic is request gets booked and cancel gets canceled.",
         "parameters": [
           {
             "name": "id",

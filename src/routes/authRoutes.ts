@@ -1,6 +1,7 @@
 import { Router } from "express";
-import { LoginTask, RegisterTask } from "../controller/Auth";
+import { LoginTask, RegisterTask, LogoutTask } from "../controller/Auth";
 import { check } from "express-validator";
+import auth from "../middleware/auth";
 
 const router = Router();
 /**
@@ -40,5 +41,7 @@ router.post(
   ],
   LoginTask
 );
+
+router.get("/logout", auth, LogoutTask);
 
 export default router;
