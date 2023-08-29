@@ -178,6 +178,10 @@ export const toggleHotelsByID = async (req: Request, res: Response) => {
   }
 };
 
+// {
+//   "email": "superadmin@gmail.com",
+//   "password": "superadmin"
+// }
 export const HotelAdd = async (req: Request, res: Response) => {
   const data: IHotel[] = req.body;
 

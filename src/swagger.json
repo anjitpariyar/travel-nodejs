@@ -342,6 +342,7 @@
         }
       }
     },
+
     "/hotels/{id}": {
       "get": {
         "summary": "Get a hotel by ID",
@@ -1205,6 +1206,110 @@
           }
         }
       }
+    },
+    "/hotels/add": {
+      "post": {
+        "tags": ["ADMIN "],
+        "summary": "Add hotels in bulk",
+        "description": "Add hotels to the in bulk. means it has to be in an Array",
+        "security": [
+          {
+            "xAuthToken": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/HotelAdd"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Hotels added successfully",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "status": 200,
+                    "data": {
+                      "_id": "hotel_id",
+                      "pid": "pid",
+                      "name": "Hotel Name",
+                      "location": "Location",
+                      "price": "Price",
+                      "about": "About Hotel",
+                      "service": ["Service 1", "Service 2"],
+                      "food": ["Food 1", "Food 2"],
+                      "reviews": ["Review 1", "Review 2"],
+                      "rate": 4.5,
+                      "gallery": ["image1.jpg", "image2.jpg"],
+                      "url": "http://example.com/hotel",
+                      "liked": []
+                    },
+                    "meta": {},
+                    "msg": "Hotel added successfully"
+                  }
+                ]
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error or failed to add hotel",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 400,
+                  "data": {
+                    "errors": [
+                      {
+                        "msg": "Name cannot be empty"
+                      },
+                      {
+                        "msg": "Location cannot be empty"
+                      }
+                    ]
+                  },
+                  "meta": {},
+                  "msg": "Validation error or failed to add new Hotel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 401,
+                  "data": {},
+                  "meta": {},
+                  "msg": "Unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Profile not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 404,
+                  "data": {},
+                  "meta": {},
+                  "msg": "Profile not found"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1564,6 +1669,72 @@
             "type": "number"
           },
           "price": {
+            "type": "string"
+          }
+        }
+      },
+      "HotelAdd": {
+        "type": "object",
+        "properties": {
+          "pid": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "price": {
+            "type": "string"
+          },
+          "about": {
+            "type": "string"
+          },
+          "service": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "svg": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "food": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "reviews": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "text": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "rate": {
+            "type": "number"
+          },
+          "gallery": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "url": {
             "type": "string"
           }
         }

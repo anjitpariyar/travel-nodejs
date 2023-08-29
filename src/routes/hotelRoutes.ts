@@ -21,7 +21,7 @@ router.get("/", getHotels);
  */
 
 router.post(
-  "/",
+  "/add",
   [
     check("pid").notEmpty().withMessage("PID cannot be empty"),
     check("name").notEmpty().withMessage("Name cannot be empty"),
@@ -33,7 +33,6 @@ router.post(
     check("reviews").isArray().withMessage("Reviews must be an array"),
     check("rate").isNumeric().withMessage("Rate must be a number"),
     check("gallery").isArray().withMessage("Gallery must be an array"),
-    check("liked").isArray().withMessage("Liked must be an array"),
     check("url").notEmpty().withMessage("URL cannot be empty"),
   ],
   auth,
