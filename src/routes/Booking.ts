@@ -15,7 +15,7 @@ let router = Router();
 router.get("/", auth, GetBooking);
 
 /**
- *
+ *add hotels in bulk
  */
 router.post(
   "/:id",

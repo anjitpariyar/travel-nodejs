@@ -253,8 +253,8 @@ export const HotelAdd = async (req: Request, res: Response) => {
   });
   try {
     const results = await Promise.all(promises);
-    return res.send(results);
+    return res.status(200).send(results);
   } catch (error) {
-    return res.send(error);
+    return res.status(400).send(error);
   }
 };
