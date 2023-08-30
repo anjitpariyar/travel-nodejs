@@ -54,7 +54,7 @@ The database connection is established in `db/Dbconnect.ts`. The `connectDb` fun
 
 ## Creating Routes and Controllers
 
-Define your application's routes and controllers. For example, `routes/HotelRoutes.ts` and `controller/HotelController.ts` handle hotel-related functionality.
+Define your application's routes and controllers. For example, `routes/hotelRoutes.ts` and `controller/Hotel.ts` handle hotel-related functionality.
 
 ## Setting Up Express App
 
@@ -69,18 +69,36 @@ API documentation is generated using Swagger. The `swagger.json` file defines AP
 1. Install project dependencies:
 
    ```bash
-   npm install
-   npm run dev
+   yarn
    ```
 
-   This starts the server with nodemon, providing live-reloading during development.
+2. Run the project
+
+   ```bash
+   yarn run dev
+   ```
+
+This starts the server with nodemon, providing live-reloading during development.
 
 Feel free to expand upon this foundation by adding more routes, controllers, models, and other functionalities to create a fully featured travel application. Happy coding!
 
-Author: Anjit Pariyar
+** Author:**
 
-```
+- [Anjit Pariyar ](https://www.anjitpariyar.com.np/)
 
-You can copy and paste this additional content directly into your README file after the directory structure section. This will provide a comprehensive overview of the project's features and setup instructions.
+** Other Team Member **
 
-```
+- [Chanda Sherestha](https://www.instagram.com/cresthachanda/)
+- [Anubhav Khadka](https://www.instagram.com/anubhav.kh/)
+
+** Recourse **
+
+- [Swagger Documentation]()
+- [More Details and uses of API]()
+- [Hotel Vendor site]()
+- [Node Scrapper Code]()
+- [React Native Code]()
+- [React Native APK]()
+- [Design Figma ]()
+- [Presentation]()
+- [College Documentation]()
