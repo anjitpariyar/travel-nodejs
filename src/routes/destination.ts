@@ -14,13 +14,14 @@ let router = Router();
 /**
  * get destination
  */
-router.get("/add", getDestination);
+router.get("/", getDestination);
 
 /**
  *add destination in bulk
+ * function is AddDestinations
  */
 router.post(
-  "/:id",
+  "/add",
   auth,
   [
     check("pid").notEmpty().withMessage("PID cannot be empty"),
@@ -38,7 +39,9 @@ router.post(
     check("url").notEmpty().withMessage("URL cannot be empty"),
     check("categoryId").notEmpty().withMessage("categoryId cannot be empty"),
   ],
-  AddDestinations
+  (req, res) => {
+    res.send("api is hidden in production");
+  }
 );
 
 /**

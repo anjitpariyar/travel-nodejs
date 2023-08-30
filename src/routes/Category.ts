@@ -11,6 +11,7 @@ import { check } from "express-validator";
 
 /**
  * Post Comment
+ * function is categoryAdd
  */
 router.get("/", getCategory);
 
@@ -23,7 +24,9 @@ router.post(
     check("about").notEmpty().withMessage("About cannot be empty"),
   ],
   auth,
-  categoryAdd
+  (req, res) => {
+    res.send("api is hidden in production");
+  }
 );
 
 /**

@@ -18,6 +18,7 @@ router.get("/", getHotels);
 
 /**
  * Add Bulk Hotels
+ * function is HotelAdd
  */
 
 router.post(
@@ -36,7 +37,9 @@ router.post(
     check("url").notEmpty().withMessage("URL cannot be empty"),
   ],
   auth,
-  HotelAdd
+  (req, res) => {
+    res.send("api is hidden in production");
+  }
 );
 
 /**
