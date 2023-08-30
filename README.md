@@ -16,6 +16,7 @@ Welcome to the Travel project! This is a learning project for building a Node.js
 
 The project follows a structured directory layout:
 
+```Folder Structure
 Travel/
 ├── src/
 │ ├── controller/
@@ -30,6 +31,7 @@ Travel/
 ├── package.json
 ├── tsconfig.json
 └── README.md
+```
 
 - `src/`: Contains different components of the application.
 - `.env`: Environment variable configuration.
@@ -93,12 +95,13 @@ Feel free to expand upon this foundation by adding more routes, controllers, mod
 
 ** Recourse **
 
-- [Swagger Documentation]()
+- [Swagger Documentation](https://travel-nodejs.vercel.app/api-docs/)
 - [More Details and uses of API]()
-- [Hotel Vendor site]()
-- [Node Scrapper Code]()
-- [React Native Code]()
+- [Hotel Admin](https://travel-admin-beta.vercel.app/)
+- [Hotel Admin Repo](https://github.com/anjitpariyar/travel-admin)
+- [Node Scrapper Repo](https://github.com/anjitpariyar/node-crawler)
+- [React Native Repo](https://github.com/chandasherestha/Yatra-Sangraha)
 - [React Native APK]()
-- [Design Figma ]()
+- [Design Figma ](https://www.figma.com/file/zoGBzrgcctExFiUnpAphww/YATRA-SANGRAHA-%2F-TRAVELING-APP?type=design&node-id=0%3A1&mode=design&t=y9rIbpOOKVXQuQbt-1)
 - [Presentation]()
 - [College Documentation]()
