@@ -1,5 +1,7 @@
 # Travel Project
 
+![alt text](https://res.cloudinary.com/dem2xvk2e/image/upload/v1693423853/chat/qsgxxhtnwgk5mt486d5v.png)
+
 Welcome to the Travel project! This is a learning project for building a Node.js backend with MongoDB for managing travel-related data. The project structure is designed to help you get started with creating APIs, handling database operations, and more.
 
 ## Table of Contents
