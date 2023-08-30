@@ -7,7 +7,7 @@ import {
   HotelAdd,
 } from "../controller/Hotel";
 import auth from "../middleware/auth";
-import { check, validationResult } from "express-validator";
+import { check } from "express-validator";
 
 let router = Router();
 

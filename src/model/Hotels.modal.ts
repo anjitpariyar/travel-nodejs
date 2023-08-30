@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 /**
  * A model for the post hotel database
  */
+
 interface Review {
   name: string;
   text: string;

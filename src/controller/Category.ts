@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import ResponseObj from "./Response";
-import Category from "../model/Category.model";
+import Category, { ICategory } from "../model/Category.model";
+import { validationResult } from "express-validator";
+import Auth from "../model/Auth.model";
 
 export const getCategory = async (req: Request, res: Response) => {
   try {
@@ -40,5 +42,62 @@ export const getCategoryByID = async (req: Request, res: Response) => {
       error?.data?.message ?? "Something went wrong"
     );
     return res.send(resData);
+  }
+};
+
+export const categoryAdd = async (req: Request, res: Response) => {
+  const data: ICategory[] = req.body;
+
+  // ... (remaining code)
+
+  const promises = data.map(async function (item) {
+    let errors = validationResult(item);
+
+    if (!errors.isEmpty()) {
+      let respObject = new ResponseObj(
+        400,
+        errors,
+        {},
+        "Validations error occured"
+      );
+      return respObject; // Return the error response
+    }
+
+    let newCategory = new Category();
+    newCategory.name = item.name;
+    newCategory.icon = item.icon;
+    newCategory.backgroundImage = item.backgroundImage;
+    newCategory.about = item.about;
+
+    try {
+      let response = await newCategory.save();
+      if (response) {
+        let resData = new ResponseObj(
+          200,
+          item,
+          {},
+          "category added successfully"
+        );
+        return resData;
+      }
+    } catch (error) {
+      console.log("error", error);
+      let errorObject: object = {};
+      if (error instanceof Error) errorObject = error;
+      let resData = new ResponseObj(
+        400,
+        errorObject,
+        {},
+        "Failed to add new category"
+      );
+      return resData; // Return the error response
+    }
+  });
+
+  try {
+    const results = await Promise.all(promises);
+    return res.send(results);
+  } catch (error) {
+    return res.send(error);
   }
 };

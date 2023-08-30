@@ -1209,7 +1209,7 @@
     },
     "/hotels/add": {
       "post": {
-        "tags": ["ADMIN "],
+        "tags": ["ADMIN [Route been closed in production mode]"],
         "summary": "Add hotels in bulk",
         "description": "Add hotels to the in bulk. means it has to be in an Array",
         "security": [
@@ -1278,6 +1278,102 @@
                   },
                   "meta": {},
                   "msg": "Validation error or failed to add new Hotel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 401,
+                  "data": {},
+                  "meta": {},
+                  "msg": "Unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Profile not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 404,
+                  "data": {},
+                  "meta": {},
+                  "msg": "Profile not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/category/add": {
+      "post": {
+        "tags": ["ADMIN [Route been closed in production mode]"],
+        "summary": "Add category in bulk",
+        "description": "Add category to the in bulk. means it has to be in an Array",
+        "security": [
+          {
+            "xAuthToken": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/CategoryAdd"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Category added successfully",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "status": 200,
+                    "data": {
+                      "_id": "category_id",
+                      "icon": "http://image.png",
+                      "name": "category Name",
+                      "backgroundImage": "http://image.png",
+                      "about": "About Category"
+                    },
+                    "meta": {},
+                    "msg": "Category added successfully"
+                  }
+                ]
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error or failed to add hotel",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 400,
+                  "data": {
+                    "errors": [
+                      {
+                        "msg": "Name cannot be empty"
+                      },
+                      {
+                        "msg": "backgroundImage cannot be empty"
+                      }
+                    ]
+                  },
+                  "meta": {},
+                  "msg": "Validation error or failed to add new Category"
                 }
               }
             }
@@ -1735,6 +1831,23 @@
             }
           },
           "url": {
+            "type": "string"
+          }
+        }
+      },
+      "CategoryAdd": {
+        "type": "object",
+        "properties": {
+          "icon": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "backgroundImage": {
+            "type": "string"
+          },
+          "about": {
             "type": "string"
           }
         }
