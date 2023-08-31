@@ -98,7 +98,7 @@ Feel free to expand upon this foundation by adding more routes, controllers, mod
 ** Recourse **
 
 - [Swagger Documentation](https://travel-nodejs.vercel.app/api-docs/)
-- [More Details and uses of API]()
+- [More Details and uses of API](https://anjitpariyar.medium.com/building-a-seamless-college-project-creating-a-node-js-backend-and-react-native-app-a3b7c4ccbcfb)
 - [Hotel Admin](https://travel-admin-beta.vercel.app/)
 - [Hotel Admin Repo](https://github.com/anjitpariyar/travel-admin)
 - [Node Scrapper Repo](https://github.com/anjitpariyar/node-crawler)
