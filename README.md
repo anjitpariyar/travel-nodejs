@@ -105,5 +105,5 @@ Feel free to expand upon this foundation by adding more routes, controllers, mod
 - [React Native Repo](https://github.com/chandasherestha/Yatra-Sangraha)
 - [React Native APK](https://drive.google.com/file/d/1_C5-P2NmVqBy9BQCJjC4caH04Z_aReHq/view?usp=sharing)
 - [Design Figma ](https://www.figma.com/file/zoGBzrgcctExFiUnpAphww/YATRA-SANGRAHA-%2F-TRAVELING-APP?type=design&node-id=0%3A1&mode=design&t=y9rIbpOOKVXQuQbt-1)
-- [Presentation](https://www.slideshare.net/anjitpariyar1/yatrasangraha1pdf)
+- [Presentation](https://www.slideshare.net/anjitpariyar1/travel-apppptx)
 - [College Documentation](https://www.slideshare.net/anjitpariyar1/yatrasangraha1pdf)
