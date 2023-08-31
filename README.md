@@ -1,6 +1,6 @@
 # Travel Project
 
-![alt text](https://res.cloudinary.com/dem2xvk2e/image/upload/v1693423853/chat/qsgxxhtnwgk5mt486d5v.png)
+![Travel Backend](https://res.cloudinary.com/dem2xvk2e/image/upload/v1693423853/chat/qsgxxhtnwgk5mt486d5v.png)
 
 Welcome to the Travel project! This is a learning project for building a Node.js backend with MongoDB for managing travel-related data. The project structure is designed to help you get started with creating APIs, handling database operations, and more.
 
@@ -103,7 +103,7 @@ Feel free to expand upon this foundation by adding more routes, controllers, mod
 - [Hotel Admin Repo](https://github.com/anjitpariyar/travel-admin)
 - [Node Scrapper Repo](https://github.com/anjitpariyar/node-crawler)
 - [React Native Repo](https://github.com/chandasherestha/Yatra-Sangraha)
-- [React Native APK]()
+- [React Native APK](https://drive.google.com/file/d/1_C5-P2NmVqBy9BQCJjC4caH04Z_aReHq/view?usp=sharing)
 - [Design Figma ](https://www.figma.com/file/zoGBzrgcctExFiUnpAphww/YATRA-SANGRAHA-%2F-TRAVELING-APP?type=design&node-id=0%3A1&mode=design&t=y9rIbpOOKVXQuQbt-1)
-- [Presentation]()
-- [College Documentation]()
+- [Presentation](https://www.slideshare.net/anjitpariyar1/yatrasangraha1pdf)
+- [College Documentation](https://www.slideshare.net/anjitpariyar1/yatrasangraha1pdf)
